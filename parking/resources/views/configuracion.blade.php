@@ -34,24 +34,77 @@
 </div>
 
 <div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header card-header-primary">
+                <h4 class="card-title ">Tipo Pagos</h4>
+                <p class="card-category">Formulario para configuración</p>
+            </div>
+            <div class="card-body">
+                <form class="row" action="/tipoPago/create"  method="POST">
+                    {{ csrf_field() }}
+                    <label class="col-md-2 ">Tipo Pago</label>
+                    <div class="col-md-10">
+                        <input type="text" id="nombre" name="nombre" placeholder="(Nombre del pago)" class="col-md-10 form-control" autocomplete=off list="tipoPagoslist" required ><datalist id="tipoPagoslist">
+                        @foreach ( $tipoPagos as $tipos )
+                        <option value="{{ $tipos->nombre }}">
+                        @endforeach  
+                        </datalist></div>
+                        <div><input type="hidden" id="id" name="id"  placeholder="id" class="col-md-10 form-control" ></div>
+                    <div class="col-md-12"><input type="submit" class="btn btn-success" value="Guardar"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header card-header-primary">
+                <h4 class="card-title ">Tipo Vehiculo</h4>
+                <p class="card-category">Formulario para configuración</p>
+            </div>
+            <div class="card-body">
+                <form class="row" action="/tipoVehiculo/create"  method="POST">
+                    {{ csrf_field() }}
+                    <label class="col-md-2 ">Tipo Vehiculo</label>
+                    <div class="col-md-4">
+                        <input type="text" id="nombre" name="nombre" placeholder="(Nombre del pago)" class="col-md-10 form-control" autocomplete=off list="tipoVehiculolist" required ><datalist id="tipoVehiculolist">
+                        @foreach ( $tipoVehiculos as $tiposv )
+                        <option value="{{ $tiposv->nombre }}">
+                        @endforeach  
+                        </datalist>
+                    </div>
+                    <label class="col-md-2 ">Tarifa Sugerida (<small>x hora</small>)</label><div class="col-md-4"><input type="text" id="tarifaSugerida" name="tarifaSugerida" class="col-md-10 form-control" placeholder="ej.(2000)" autocomplete=off required/></div>
+                    <label class="col-md-2 ">Url Logo</label><div class="col-md-10"><input type="text" id="urlLogo" name="urlLogo" class="col-md-12 form-control" placeholder="Copia y pega la direccion de una imagen" autocomplete=off required/></div>
+                    <div><input type="hidden" id="id" name="id"  placeholder="id" class="col-md-10 form-control" ></div>
+                    <div class="col-md-12"><input type="submit" class="btn btn-success" value="Guardar"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header card-header-primary">
-                    <h4 class="card-title ">Tipo Pagos</h4>
+                    <h4 class="card-title ">Tipo Usuarios</h4>
                     <p class="card-category">Formulario para configuración</p>
                 </div>
                 <div class="card-body">
-                    <form class="row" action="/tipoPago/create"  method="POST">
+                    <form class="row" action="/tipoUsuarios/create"  method="POST">
                         {{ csrf_field() }}
-                        <label class="col-md-2 ">Nit</label>
+                        <label class="col-md-2 ">Tipo Usuarios</label>
                         <div class="col-md-10">
-                            {{ $tipoPagos }}
-                            <input type="text" id="nombre" name="nombre" placeholder="(sin el número de verificación)" class="col-md-10 form-control" autocomplete=off list="tipoPagoslist" ><datalist id="tipoPagoslist">
-                            @foreach ( $tipoPagos as $obj )
-                            <option value="">
+                            <input type="text" id="nombre" name="nombre" placeholder="(Nombre del tipo de usuario)" class="col-md-10 form-control" autocomplete=off list="tipoUsuariolist" required ><datalist id="tipoUsuariolist">
+                            @foreach ( $tipoUsuarios as $tiposu )
+                            <option value="{{ $tiposu->nombre }}">
                             @endforeach  
-                            </datalist></div>
-                            <div><input type="hidden" id="id" name="id" placeholder="id" class="col-md-10 form-control"></div>
+                            </datalist>
+                        </div>
+                        <div><input type="hidden" id="id" name="id"  placeholder="id" class="col-md-10 form-control" ></div>
                         <div class="col-md-12"><input type="submit" class="btn btn-success" value="Guardar"></div>
                     </form>
                 </div>

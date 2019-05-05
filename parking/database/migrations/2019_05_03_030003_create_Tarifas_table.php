@@ -20,6 +20,8 @@ class CreateTarifasTable extends Migration
             $table->string('nombreTarifa');
             $table->double('valorHora');
             $table->double('valorMinuto');
+            $table->double('quincena');
+            $table->double('mensualidad');
             $table->string('vigendeDesde');
             $table->string('vigenteHasta');
             $table->string('estado');

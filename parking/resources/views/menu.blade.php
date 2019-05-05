@@ -12,10 +12,10 @@
             <p>Perfil Usuario</p>
         </a>
         </li>
-        <li class="nav-item " id="tarifas">
-        <a class="nav-link" href="tarifas">
+        <li class="nav-item " id="servicios">
+        <a class="nav-link" href="servicios">
             <i class="material-icons">content_paste</i>
-            <p>Tarifas</p>
+            <p>Servicios</p>
         </a>
         </li>
         <li class="nav-item " id="clientes">
@@ -52,7 +52,7 @@
 </div>
 
 <script>
-    let menu = ["usuario","index","tarifas","clientes","entradas","pagos","configuracion"];
+    let menu = ["usuario","index","servicios","clientes","entradas","pagos","configuracion"];
     for(let i = 0; menu.length > i; i++){
         if(menu[i] == window.location.pathname.split('/')[1]){
             document.getElementById(menu[i]).classList.add("active");

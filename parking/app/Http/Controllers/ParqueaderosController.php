@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Parqueaderos;
 use App\TipoPagos;
+use App\TipoVehiculos;
+use App\TipoUsuarios;
+use App\Tarifas;
 
 class ParqueaderosController extends Controller
 {
@@ -37,7 +40,7 @@ class ParqueaderosController extends Controller
     }
 
     public function createTipoPago(Request $request){
-        $obj = TipoPagos::where('id','=',$request->id)->first();
+        $obj = TipoPagos::where('nombre','=',$request->nombre)->first();
         if(sizeof($obj) != 0 ){ //actualizar
             ParqueaderosController::ObjTipoPagos($obj,$request);
             $obj->save();
@@ -49,6 +52,49 @@ class ParqueaderosController extends Controller
         }
         return redirect('/configuracion');
     }
+
+    public function tipoVehiculo(Request $request){
+        $obj = TipoVehiculos::where('nombre','=',$request->nombre)->first();
+        if(sizeof($obj) != 0 ){ //actualizar
+            ParqueaderosController::ObjTipoVehiculos($obj,$request);
+            $obj->save();
+        }
+        else { //crear
+            $obj = new TipoVehiculos();
+            ParqueaderosController::ObjTipoVehiculos($obj,$request);
+            $obj->save();
+        }
+        return redirect('/configuracion');
+    }
+
+    public function createtipoUsuarios(Request $request){
+        $obj = TipoUsuarios::where('nombre','=',$request->nombre)->first();
+        if(sizeof($obj) != 0 ){ //actualizar
+            ParqueaderosController::ObjTipoUsuarios($obj,$request);
+            $obj->save();
+        }
+        else { //crear
+            $obj = new TipoUsuarios();
+            ParqueaderosController::ObjTipoUsuarios($obj,$request);
+            $obj->save();
+        }
+        return redirect('/configuracion');
+    }
+
+    public function createTarifas(Request $request){
+        $obj = Tarifas::where('nombreTarifa','=',$request->nombreTarifa)->first();
+        if(sizeof($obj) != 0 ){ //actualizar
+            ParqueaderosController::ObjTarifas($obj,$request);
+            $obj->save();
+        }
+        else { //crear
+            $obj = new Tarifas();
+            ParqueaderosController::ObjTarifas($obj,$request);
+            $obj->save();
+        }
+        return redirect('/servicios');
+    }
+
 
 
 
@@ -69,6 +115,32 @@ class ParqueaderosController extends Controller
 
     static function ObjTipoPagos(TipoPagos $obj, Request $request){
         $obj->nombre    = $request->nombre;
+        return $obj;
+    }
+
+    static function ObjTipoVehiculos(TipoVehiculos $obj, Request $request){
+        $obj->nombre            = $request->nombre;
+        $obj->tarifaSugerida    = $request->tarifaSugerida;
+        $obj->urlLogo           = $request->urlLogo;
+        return $obj;
+    }
+
+    static function ObjTipoUsuarios(TipoUsuarios $obj, Request $request){
+        $obj->nombre    = $request->nombre;
+        return $obj;
+    }
+
+    static function ObjTarifas(Tarifas $obj, Request $request){
+        $obj->idParqueadero     = $request->idParqueadero;
+        $obj->idTipoVehiculo    = $request->idTipoVehiculo;
+        $obj->nombreTarifa      = $request->nombreTarifa;
+        $obj->valorHora         = $request->valorHora;
+        $obj->valorMinuto       = $request->valorMinuto;
+        $obj->quincena          = $request->quincena;
+        $obj->mensualidad       = $request->mensualidad;
+        $obj->vigendeDesde      = $request->vigendeDesde;
+        $obj->vigenteHasta      = $request->vigenteHasta;
+        $obj->estado            = $request->estado;
         return $obj;
     }
 }
