@@ -32,7 +32,19 @@
           PARKAPP
         </a>
       </div>
-      @include('menu')
+      <?php
+      if(Session::get('id') != ""){
+        ?>
+        @include('menu')
+        <?php 
+      }
+      else{
+        echo '<h1><a href="/">Error de Sesión (ingresa aquí para volver a loguearse)</a></h1><script>
+window.location.href = "/salida";
+</script>';
+      }
+      ?>
+      
     </div>
     <div class="main-panel">
       <!-- Navbar -->

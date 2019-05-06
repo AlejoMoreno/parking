@@ -10,17 +10,25 @@
                 <p class="card-category">Formulario para actualizar usuarios</p>
             </div>
             <div class="card-body">
-                <form class="row">
-                    <label class="col-md-2 ">ID</label><div class="col-md-2"><input type="text" id="id" name="id" placeholder="id" class="col-md-10 form-control"></div>
-                    <label class="col-md-2 ">idParqueadero</label><div class="col-md-6"><select id="idParqueadero" name="idParqueadero" class="col-md-10 form-control"><option value="0">Seleccione Parqueadero</option></select></div>
-                    <label class="col-md-2 ">idTipoUsuario</label><div class="col-md-2"><select id="idTipoUsuario" name="idTipoUsuario" class="col-md-10 form-control"><option value="0">Seleccione Tipo Usuario</option></select></div>
-                    <label class="col-md-2 ">usuario</label><div class="col-md-6"><input type="text" id="usuario" name="usuario" placeholder="usuario" class="col-md-10 form-control"></div>
-                    <label class="col-md-2 ">nombres</label><div class="col-md-2"><input type="text" id="nombres" name="nombres" placeholder="nombres" class="col-md-10 form-control"></div>
-                    <label class="col-md-2 ">apellidos</label><div class="col-md-6"><input type="text" id="apellidos" name="apellidos" placeholder="apellidos" class="col-md-10 form-control"></div>
-                    <label class="col-md-2 ">direccion</label><div class="col-md-2"><input type="text" id="direccion" name="direccion" placeholder="direccion" class="col-md-10 form-control"></div>
-                    <label class="col-md-2 ">telefono</label><div class="col-md-6"><input type="text" id="telefono" name="telefono" placeholder="telefono" class="col-md-10 form-control"></div>
-                    <label class="col-md-2 ">contraseña</label><div class="col-md-2"><input type="password" id="contrasena" name="contrasena" placeholder="contrasena" class="col-md-10 form-control"></div>
-                    <label class="col-md-2 ">email</label><div class="col-md-6"><input type="email" id="email" name="email" placeholder="email" class="col-md-10 form-control"></div>
+                <form class="row" action="/usuarios/create"  method="POST">
+                    {{ csrf_field() }}
+                    <div><input type="hidden" id="id" name="id" placeholder="id" class="col-md-10 form-control"></div>
+                    <div><input type="hidden" id="idParqueadero" name="idParqueadero" value="{{ $parqueaderos->id }}" class="col-md-10 form-control"></div>
+                    <label class="col-md-2 ">Tipo Usuario</label><div class="col-md-4">
+                        <select id="idTipoUsuario" name="idTipoUsuario" class="col-md-10 form-control">
+                            <option value="0">Seleccione Tipo Usuario</option>
+                            @foreach ($tipoUsuarios as $tipoUsuario)
+                            <option value="{{ $tipoUsuario->id }}">{{ $tipoUsuario->nombre }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <label class="col-md-2 ">Usuario</label><div class="col-md-4"><input type="user" id="usuario" name="usuario" placeholder="" class="col-md-10 form-control" ><datalist id="listvacia"><option value=" "></datalist></div>
+                    <label class="col-md-2 ">Nombres</label><div class="col-md-4"><input type="text" id="nombres" name="nombres" placeholder="" class="col-md-10 form-control"></div>
+                    <label class="col-md-2 ">Apellidos</label><div class="col-md-4"><input type="text" id="apellidos" name="apellidos" placeholder="" class="col-md-10 form-control"></div>
+                    <label class="col-md-2 ">Dirección</label><div class="col-md-4"><input type="text" id="direccion" name="direccion" placeholder="ej.(calle 38 a 50 a 98)" class="col-md-10 form-control"></div>
+                    <label class="col-md-2 ">Teléfono</label><div class="col-md-4"><input type="text" id="telefono" name="telefono" placeholder="ej.(3219045297)" class="col-md-10 form-control"></div>
+                    <label class="col-md-2 ">Contraseña</label><div class="col-md-4"><input type="password" id="contrasena" name="contrasena" placeholder="***" class="col-md-10 form-control"></div>
+                    <label class="col-md-2 ">Email</label><div class="col-md-4"><input type="email" id="email" name="email" placeholder="" class="col-md-10 form-control"></div>
                     <div class="col-md-12"><input type="submit" class="btn btn-success" value="Guardar"></div>
                 </form>
             </div>
@@ -40,33 +48,27 @@
                     <tr>
                         <th>Usuario</th>
                         <th>Nombre</th>
-                        <th>Tipo</th>
-                        <th>xxx</th>
-                        <th>xxx</th>
+                        <th>Apellidos</th>
+                        <th>Tipo Usuario</th>
+                        <th>Dirección</th>
+                        <th>Teléfono</th>
+                        <th>Contraseña</th>
+                        <th>Correo</th>
                     </tr>
                     </thead>
                     <tbody>
+                        @foreach ($usuarios as $usuario)
                         <tr>
-                            <td>MOTO</td>
-                            <td>10</td>
-                            <td>2</td>
-                            <td>4</td>
-                            <td>6</td>
+                            <td>{{ $usuario->usuario }}</td>
+                            <td>{{ $usuario->nombres }}</td>
+                            <td>{{ $usuario->apellidos }}</td>
+                            <td>{{ $usuario->idTipoUsuario[0]->nombre }}</td>
+                            <td>{{ $usuario->direccion }}</td>
+                            <td>{{ $usuario->telefono }}</td>
+                            <td>{{ $usuario->contrasena }}</td>
+                            <td>{{ $usuario->email }}</td>
                         </tr>
-                        <tr>
-                            <td>CARRO</td>
-                            <td>10</td>
-                            <td>2</td>
-                            <td>4</td>
-                            <td>6</td>
-                        </tr>
-                        <tr>
-                            <td>CICLA</td>
-                            <td>10</td>
-                            <td>2</td>
-                            <td>4</td>
-                            <td>6</td>
-                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
                 </div>

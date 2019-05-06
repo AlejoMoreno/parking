@@ -34,8 +34,18 @@
                     <h1>ParkApp</h1>
                   </div>
                 </div>
+                @if(session()->has('message')) 
+                <div class="alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <i class="material-icons">close</i>
+                    </button>
+                    <span>
+                      {{ session()->get('message') }} </span>
+                  </div>
+                @endif 
                 <div class="card-body">
-                    <form class="row">
+                    <form class="row" action="/usuarios/loguin"  method="POST">
+                      {{ csrf_field() }}
                         <div class="col-lg-12"><br>
                             <input type="text" id="usuario" name="usuario" class="form-control" placeholder="Usuario">
                         </div>

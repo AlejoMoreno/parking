@@ -7,7 +7,7 @@
         </a>
         </li>
         <li class="nav-item " id="usuario">
-        <a class="nav-link" href="usuario">
+        <a class="nav-link" href="usuarios">
             <i class="material-icons">person</i>
             <p>Perfil Usuario</p>
         </a>
@@ -43,7 +43,7 @@
         </a>
         </li>
         <li class="nav-item active-pro ">
-        <a class="nav-link" href="salir">
+        <a class="nav-link" href="salida">
             <i class="material-icons">unarchive</i>
             <p>Salir</p>
         </a>

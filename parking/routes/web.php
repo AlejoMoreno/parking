@@ -19,8 +19,31 @@ Route::get('/index', function(){
     return view('index');
 });
 
-Route::get('/usuario', function(){
-    return view('usuario');
+Route::get('/salida', function(){
+    return view('salida');
+});
+
+Route::get('/entradas', function(){
+    $tarifas = App\Tarifas::all();
+    $clientes = App\Clientes::all();
+    return view('entradas',[
+        "tarifas"=>$tarifas,
+        "clientes"=>$clientes
+    ]);
+});
+
+Route::get('/usuarios', function(){
+    $usuarios = App\Usuarios::all();
+    $tipoUsuarios = App\TipoUsuarios::all();
+    $parqueaderos = App\Parqueaderos::where('id','>','0')->first();
+    foreach($usuarios as $obj){
+        $obj->idTipoUsuario = App\TipoUsuarios::where('id','=',$obj->idTipoUsuario)->get();
+    }
+    return view('usuario',[
+        "parqueaderos"=>$parqueaderos,
+        "tipoUsuarios"=>$tipoUsuarios,
+        "usuarios"=>$usuarios
+    ]);
 });
 
 Route::get('/servicios', function(){
@@ -38,7 +61,10 @@ Route::get('/servicios', function(){
 });
 
 Route::get('/clientes', function(){
-    return view('clientes');
+    $clientes = App\Clientes::all();
+    return view('clientes',[
+        "clientes"=>$clientes
+    ]);
 });
 
 Route::get('/configuracion', function(){
@@ -62,3 +88,11 @@ Route::post('/tipoPago/create', 'ParqueaderosController@createTipoPago');
 Route::post('/tipoVehiculo/create', 'ParqueaderosController@tipoVehiculo');
 Route::post('/tipoUsuarios/create', 'ParqueaderosController@createtipoUsuarios');
 Route::post('/tarifas/create', 'ParqueaderosController@createTarifas');
+
+
+/**
+ * USUARIOS CONTROLLER
+ */
+Route::post('/clientes/create', 'UsuariosController@createClientes');
+Route::post('/usuarios/create', 'UsuariosController@createUsuarios');
+Route::post('/usuarios/loguin', 'UsuariosController@loguin');

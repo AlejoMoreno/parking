@@ -10,17 +10,23 @@
                 <p class="card-category">Formulario para actualizar clientes</p>
             </div>
             <div class="card-body">
-                <form class="row">
-                    <label class="col-md-2 ">ID</label><div class="col-md-2"><input type="text" id="id" name="id" placeholder="id" class="col-md-10 form-control"></div>
-                    <label class="col-md-2 ">idParqueadero</label><div class="col-md-6"><select id="idParqueadero" name="idParqueadero" class="col-md-10 form-control"><option value="0">Seleccione Parqueadero</option></select></div>
-                    <label class="col-md-2 ">idTipoUsuario</label><div class="col-md-2"><select id="idTipoUsuario" name="idTipoUsuario" class="col-md-10 form-control"><option value="0">Seleccione Tipo Usuario</option></select></div>
-                    <label class="col-md-2 ">usuario</label><div class="col-md-6"><input type="text" id="usuario" name="usuario" placeholder="usuario" class="col-md-10 form-control"></div>
-                    <label class="col-md-2 ">nombres</label><div class="col-md-2"><input type="text" id="nombres" name="nombres" placeholder="nombres" class="col-md-10 form-control"></div>
-                    <label class="col-md-2 ">apellidos</label><div class="col-md-6"><input type="text" id="apellidos" name="apellidos" placeholder="apellidos" class="col-md-10 form-control"></div>
-                    <label class="col-md-2 ">direccion</label><div class="col-md-2"><input type="text" id="direccion" name="direccion" placeholder="direccion" class="col-md-10 form-control"></div>
-                    <label class="col-md-2 ">telefono</label><div class="col-md-6"><input type="text" id="telefono" name="telefono" placeholder="telefono" class="col-md-10 form-control"></div>
-                    <label class="col-md-2 ">contraseña</label><div class="col-md-2"><input type="password" id="contrasena" name="contrasena" placeholder="contrasena" class="col-md-10 form-control"></div>
-                    <label class="col-md-2 ">email</label><div class="col-md-6"><input type="email" id="email" name="email" placeholder="email" class="col-md-10 form-control"></div>
+                <form class="row" action="/clientes/create"  method="POST">
+                    {{ csrf_field() }}
+                    <div><input type="hidden" id="id" name="id" placeholder="id" class="col-md-10 form-control"></div>
+                    <label class="col-md-2 ">cedula</label><div class="col-md-4"><input id="cedula" name="cedula" class="col-md-10 form-control" ></div>
+                    <label class="col-md-2 ">titular</label><div class="col-md-4"><input id="titular" name="titular" class="col-md-10 form-control"></div>
+                    <label class="col-md-2 ">Amparado</label><div class="col-md-4"><select id="Amparado" name="Amparado" class="col-md-10 form-control">
+                        <option value="0">Seleccione si esta amparado</option>
+                        <option value="1">SI</option>
+                        <option value="2">NO</option>
+                    </select></div>
+                    <label class="col-md-2 ">direccion</label><div class="col-md-4"><input type="text" id="direccion" name="direccion" placeholder="direccion" class="col-md-10 form-control"></div>
+                    <label class="col-md-2 ">telefono</label><div class="col-md-4"><input type="text" id="telefono" name="telefono" placeholder="telefono" class="col-md-10 form-control"></div>
+                    <label class="col-md-2 ">estado</label><div class="col-md-4"><select id="estado" name="estado" class="col-md-10 form-control">
+                        <option value="0">Seleccione estado</option>
+                        <option value="ACTIVO">ACTIVO</option>
+                        <option value="INACTIVO">INACTIVO</option>
+                    </select></div>
                     <div class="col-md-12"><input type="submit" class="btn btn-success" value="Guardar"></div>
                 </form>
             </div>
@@ -38,35 +44,25 @@
                 <table class="table">
                     <thead class=" text-primary">
                     <tr>
-                        <th>Usuario</th>
-                        <th>Nombre</th>
-                        <th>Tipo</th>
-                        <th>xxx</th>
-                        <th>xxx</th>
+                        <th>Cedula</th>
+                        <th>Titular</th>
+                        <th>Amparado</th>
+                        <th>Direccion</th>
+                        <th>Telefono</th>
+                        <th>Estado</th>
                     </tr>
                     </thead>
                     <tbody>
+                        @foreach ($clientes as $obj)
                         <tr>
-                            <td>MOTO</td>
-                            <td>10</td>
-                            <td>2</td>
-                            <td>4</td>
-                            <td>6</td>
+                            <td>{{ $obj->cedula }}</td>
+                            <td>{{ $obj->titular }}</td>
+                            <td>{{ $obj->Amparado }}</td>
+                            <td>{{ $obj->direccion }}</td>
+                            <td>{{ $obj->telefono }}</td>
+                            <td>{{ $obj->estado }}</td>
                         </tr>
-                        <tr>
-                            <td>CARRO</td>
-                            <td>10</td>
-                            <td>2</td>
-                            <td>4</td>
-                            <td>6</td>
-                        </tr>
-                        <tr>
-                            <td>CICLA</td>
-                            <td>10</td>
-                            <td>2</td>
-                            <td>4</td>
-                            <td>6</td>
-                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
                 </div>
