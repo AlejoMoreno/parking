@@ -246,6 +246,27 @@ else{
     let hora = fecha_salida[2].split("T")[1].split(":")[0] - fecha_entrada[2].split("T")[1].split(":")[0];
     let min = fecha_salida[2].split("T")[1].split(":")[1] - fecha_entrada[2].split("T")[1].split(":")[1];
 
+    if(min < 0){
+        min = min + 60;
+    }
+    if(hora < 0){
+        hora = hora + 24;
+    }
+    if(dia < 0){
+        dia = dia + 31;
+    }
+
+    /*var fecha1 = moment($('#entradaFecha').val());
+    var fecha2 = moment($('#salidaFecha').val());
+    
+    var minutos = fecha2.diff(fecha1, 'minutes');
+    hora = parseInt(minutos/60);
+    min = parseInt(minutos);
+    if(min > 60){
+        min = min -60;
+    }
+    console.log(fecha2.diff(fecha1, 'minutes'), ' minutos de diferencia');
+    */
     /*if(min<0){
         min = Math.abs(min);
     }
@@ -277,7 +298,7 @@ else{
         url:   '/servicios/'+tarifa_select,
         type:  'get',
         success:  function (response) {
-            console.log(response.tarifas[0]);
+            //console.log(response.tarifas[0]);
             tarifas = response.tarifas[0];
 
             //min
@@ -289,25 +310,121 @@ else{
             total = 0;
             
             if(mes_1>=1 ){
-                total = tarifas.mensualidad * (mes);
+                total = total + (tarifas.mensualidad * mes);
+                console.log("1");
+                if(dia_1>=30 ){
+                    total = total + tarifas.mensualidad;
+                    console.log("25");
+                }
+                if(dia_1<30 ){
+                    total = total + (tarifas.quincena * (dia * 2));
+                    console.log("35");
+                    if(hora_1>=12 ){
+                        total = total + tarifas.quincena;
+                        let h = hora_1 - 12;
+                        if(h>0){
+                            total = total + (tarifas.valorHora * h);
+                            console.log("45");
+                        }
+                        if(min_1<=45 ){
+                            total = total + tarifas.valorMinuto;
+                            console.log("75");
+                        }
+                        if(min_1>45 ){
+                            total = total + tarifas.valorHora;
+                            console.log("66");
+                        }
+                        console.log("46");
+                    }
+                    if(hora_1<12){
+                        total = total + (tarifas.valorHora * hora);
+                        if(min_1<=45 && dia_1==0 ){
+                            total = total + tarifas.valorMinuto;
+                            console.log("76");
+                        }
+                        if(min_1>45 && dia_1==0 ){
+                            total = total + tarifas.valorHora;
+                            console.log("66");
+                        }
+                        console.log("56");
+                    }
+                    
+                }
             }
-            if(dia_1>30 && mes_1==0){
-                total = tarifas.mensualidad;
+            if(dia_1>=30 && mes_1==0){
+                total = total + tarifas.mensualidad;
+                console.log("2");
             }
-            if(dia_1<=30 && mes_1==0){
-                total = tarifas.quincena * (dia * 2);
+            if(dia_1<30 && mes_1==0 && dia_1!=0){
+                total = total + (tarifas.quincena * (dia * 2));
+                console.log("3");
+                if(hora_1>=12 && mes_1==0){
+                    total = total + tarifas.quincena;
+                    let h = hora_1 - 12;
+                    if(h>0){
+                        total = total + (tarifas.valorHora * h);
+                        console.log("44");
+                    }
+                    if(min_1<=45 && mes_1==0){
+                        total = total + tarifas.valorMinuto;
+                        console.log("74");
+                    }
+                    if(min_1>45 && mes_1==0){
+                        total = total + tarifas.valorHora;
+                        console.log("64");
+                    }
+                    console.log("41");
+                }
+                if(hora_1<12 && mes_1==0 ){
+                    total = total + (tarifas.valorHora * hora);
+                    if(min_1<=45  && mes_1==0){
+                        total = total + tarifas.valorMinuto;
+                        console.log("73");
+                    }
+                    if(min_1>45 && mes_1==0){
+                        total = total + tarifas.valorHora;
+                        console.log("63");
+                    }
+                    console.log("51");
+                }
+                
             }
-            if(hora_1>11 && dia_1==0 && mes_1==0){
-                total = tarifas.quincena;
+            if(hora_1>=12 && dia_1==0 && mes_1==0){
+                total = total + tarifas.quincena;
+                let h = hora_1 - 12;
+                if(h>0){
+                    total = total + (tarifas.valorHora * h);
+                    console.log("41");
+                }
+                if(min_1<=45 && mes_1==0){
+                    total = total + tarifas.valorMinuto;
+                    console.log("72");
+                }
+                if(min_1>45 && mes_1==0){
+                    total = total + tarifas.valorHora;
+                    console.log("62");
+                }
+                console.log("4");
             }
-            if(hora_1<=11 && dia_1==0 && mes_1==0){
-                total = tarifas.valorHora;
+            if(hora_1<12 && dia_1==0 && mes_1==0 && hora_1!=0){
+                total = total + (tarifas.valorHora * hora);
+                if(min_1<=45 && dia_1==0 && mes_1==0){
+                    total = total + tarifas.valorMinuto;
+                    console.log("71");
+                }
+                if(min_1>45 && dia_1==0 && mes_1==0){
+                    total = total + tarifas.valorHora;
+                    console.log("61");
+                }
+                console.log("5");
             }
             if(min_1>45 && hora_1==0 && dia_1==0 && mes_1==0){
-                total = tarifas.valorHora;
+                total = total + tarifas.valorHora;
+                console.log("6");
             }
             if(min_1<=45 && hora_1==0 && dia_1==0 && mes_1==0){
-                total = tarifas.valorMinuto;
+                total = total + tarifas.valorMinuto;
+                console.log("7");
             }
             
             
@@ -317,7 +434,8 @@ else{
             pago_hora = hora * tarifas.valorHora;
             pago_min = min * tarifas.valorMinuto;
             pago_quin = dia * tarifas.quincena;
-
+            
+            
             
             $('#total').text(numeral(total).format('$0,0'));
             $('#subtotal').val(total);
@@ -385,6 +503,9 @@ else{
         $('#reciboPrefijo').val(data.reciboPrefijo);
         if((data.salidaFecha !=  null)){
             $('#salidaFecha').val( data.salidaFecha );
+        }
+        else{
+            //$('#salidaFecha').val( data.salidaFecha );
         }
         $('#salidaHora').val(data.salidaHora);
         $('#idEntrada').val(data.id);
