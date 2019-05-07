@@ -47,11 +47,16 @@ else{
     <div>
       <div class="content">
         <div class="container-fluid">
-           <form>
+           <form action="/entradas/create"  method="POST">
+            {{ csrf_field() }}
+               <a href="/index"><div style="background: rgba(73,155,234,1);border-radius: 0px 0px 57px 57px;
+               -moz-border-radius: 0px 0px 57px 57px;
+               -webkit-border-radius: 0px 0px 57px 57px;
+               border: 0px solid #000000;width: 100px;text-aling:center;position:absolute;color:white;z-index:1000;"><center><strong>Regresar</strong></center></div></a>
                <div class="row">
                     <div class="col-md-7">    
                         <center><label>PLACA</label></center>
-                        <input type="placa" maxlength="6" id="placa" name="placa">
+                        <input type="placa" maxlength="6" id="placa" name="placa" required>
                     </div>
                     <div class="col-md-5">
                         <center><label>Valor A Pagar</label></center><br>
@@ -69,15 +74,23 @@ else{
                                 <table class="table">
                                     <thead class=" text-primary">
                                     <tr>
-                                        <th>placa</th>
-                                        <th>entradaFecha</th>
-                                        <th>entradaHora</th>
-                                        <th>idTarifa</th>
-                                        <th>reciboPrefijo reciboNumero</th>
+                                        <th>Placa</th>
+                                        <th>EntradaFecha</th>
+                                        <th>SalidaFecha</th>
+                                        <th>Tarifa</th>
+                                        <th>Recibo</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        
+                                        @foreach ($entradas as $entrada)
+                                        <tr>
+                                        <td>{{ $entrada->placa }}</td>
+                                        <td>{{ $entrada->entradaFecha }}</td>
+                                        <td>{{ $entrada->salidaFecha }}</td>
+                                        <td>{{ $entrada->idTarifa }}</td>
+                                        <td>{{ $entrada->eciboPrefijo . $entrada->reciboNumero }}</td>
+                                        </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                                 </div>
@@ -93,7 +106,7 @@ else{
                             </div>
                             <label class="col-md-2">Servicio</label>
                             <div class="col-md-10">
-                                <select id="idTarifa" name="idTarifa" class="form-control">
+                                <select id="idTarifa" name="idTarifa" class="form-control" required>
                                     <option value="">Seleccione Servicio</option>
                                     @foreach ($tarifas as $tarifa)
                                     <option value="{{ $tarifa->id }}">{{ $tarifa->nombreTarifa }}</option>
@@ -102,7 +115,7 @@ else{
                             </div>
                             <label class="col-md-2">Entrada</label>
                             <div class="col-md-10">
-                                    <input type="datetime-local" id="entradaFecha" class="form-control" onchange="cantidadTiempo()" name="entradaFecha" value="<?php echo date("Y-m-d\TH:i", strtotime(date("d-m-Y H:i:sP"))); ?>">
+                                    <input type="datetime-local" id="entradaFecha" class="form-control" onchange="cantidadTiempo()" name="entradaFecha" value="<?php echo date("Y-m-d\TH:i", strtotime(date("d-m-Y H:i:sP"))); ?>" required>
                             </div>
                             <label class="col-md-2">Salida</label>
                             <div class="col-md-10">
@@ -144,11 +157,11 @@ else{
                             </div>
                         </div>
                         
-                        <input type="hidden" id="idUsuario" name="idUsuario" placeholder="idUsuaroi">
-                        <input type="hidden" id="idParqueadero" name="idParqueadero" placeholder="idparqueadero">
-                        <input type="hidden" id="reciboPrefijo" name="reciboPrefijo" placeholder="reciboPrefijo">
-                        <input type="hidden" id="reciboNumero" name="reciboNumero" placeholder="reciboNumero">
-                        <input type="hidden" id="codigoBarras" name="codigoBarras" placeholder="codigoBarras">
+                        <input type="hidden" value="{{ Session::get('id') }}" id="idUsuario" name="idUsuario" placeholder="idUsuaroi">
+                        <input type="hidden" value="{{ $parqueaderos->id }}" id="idParqueadero" name="idParqueadero" placeholder="idparqueadero">
+                        <input type="hidden" id="reciboPrefijo" value="FA" name="reciboPrefijo" placeholder="reciboPrefijo">
+                        <input type="hidden" id="reciboNumero" value="0" name="reciboNumero" placeholder="reciboNumero">
+                        <input type="hidden" id="codigoBarras" value="NA" name="codigoBarras" placeholder="codigoBarras">
                     </div>
                </div>
                
@@ -197,17 +210,7 @@ else{
 
 
   function horaSalida(idendificador){
-      var fecha_entrada = new Date($('#entradaFecha').val());
-      if(idendificador == "quincena"){
-        var dias = 15; // Número de días a agregar
-        fecha_entrada.setDate(fecha_entrada.getDate() + dias);
-        
-      }
-      else if(idendificador == "mensualidad"){
-        var dias = 30; // Número de días a agregar
-        fecha_entrada.setDate(fecha_entrada.getDate() + dias);
-      }
-      window.location.href = "?fecha_salida="+fecha_entrada.toISOString();
+      
   }
   
   function cantidadTiempo(){

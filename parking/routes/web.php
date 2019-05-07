@@ -24,9 +24,13 @@ Route::get('/salida', function(){
 });
 
 Route::get('/entradas', function(){
+    $entradas = App\Entradas::where('salidaFecha','=',NULL)->get();
     $tarifas = App\Tarifas::all();
     $clientes = App\Clientes::all();
+    $parqueaderos = App\Parqueaderos::where('id','>','0')->first();
     return view('entradas',[
+        "entradas"=>$entradas,
+        "parqueaderos"=>$parqueaderos,
         "tarifas"=>$tarifas,
         "clientes"=>$clientes
     ]);
@@ -88,6 +92,12 @@ Route::post('/tipoPago/create', 'ParqueaderosController@createTipoPago');
 Route::post('/tipoVehiculo/create', 'ParqueaderosController@tipoVehiculo');
 Route::post('/tipoUsuarios/create', 'ParqueaderosController@createtipoUsuarios');
 Route::post('/tarifas/create', 'ParqueaderosController@createTarifas');
+Route::post('/entradas/create', 'ParqueaderosController@createEntradas');
+
+/**
+ * CONTROLLER general
+ */
+
 
 
 /**

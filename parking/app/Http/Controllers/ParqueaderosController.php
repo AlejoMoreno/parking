@@ -1,14 +1,12 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
-
 use App\Parqueaderos;
 use App\TipoPagos;
 use App\TipoVehiculos;
 use App\TipoUsuarios;
 use App\Tarifas;
+use App\Entradas;
 
 class ParqueaderosController extends Controller
 {
@@ -38,7 +36,6 @@ class ParqueaderosController extends Controller
         }
         return redirect('/configuracion');
     }
-
     public function createTipoPago(Request $request){
         $obj = TipoPagos::where('nombre','=',$request->nombre)->first();
         if(sizeof($obj) != 0 ){ //actualizar
@@ -52,7 +49,6 @@ class ParqueaderosController extends Controller
         }
         return redirect('/configuracion');
     }
-
     public function tipoVehiculo(Request $request){
         $obj = TipoVehiculos::where('nombre','=',$request->nombre)->first();
         if(sizeof($obj) != 0 ){ //actualizar
@@ -66,7 +62,6 @@ class ParqueaderosController extends Controller
         }
         return redirect('/configuracion');
     }
-
     public function createtipoUsuarios(Request $request){
         $obj = TipoUsuarios::where('nombre','=',$request->nombre)->first();
         if(sizeof($obj) != 0 ){ //actualizar
@@ -80,7 +75,6 @@ class ParqueaderosController extends Controller
         }
         return redirect('/configuracion');
     }
-
     public function createTarifas(Request $request){
         $obj = Tarifas::where('nombreTarifa','=',$request->nombreTarifa)->first();
         if(sizeof($obj) != 0 ){ //actualizar
@@ -94,10 +88,26 @@ class ParqueaderosController extends Controller
         }
         return redirect('/servicios');
     }
-
-
-
-
+    public function createEntradas(Request $request){
+        $obj = Entradas::where('placa','=',$request->placa)->where("salidaFecha","=",NULL)->first();
+        if(sizeof($obj) != 0 ){ //actualizar
+            ParqueaderosController::ObjEntradas($obj,$request);
+            $obj->save();
+        }
+        else { //crear
+            $obj = new Entradas();
+            $obj_1 = Entradas::where('id','>',0)->orderBy('reciboNumero','DESC')->get();
+            if(sizeof($obj_1) != 0 ){
+                $request->reciboNumero = ($obj_1[0]->reciboNumero + 1);
+            }
+            else{
+                $request->reciboNumero = "0";
+            }
+            ParqueaderosController::ObjEntradas($obj,$request);
+            $obj->save();
+        }
+        return redirect('/entradas');
+    }
     static function ObjParqueaderos(Parqueaderos $obj, Request $request){
         $obj->razon_social  = $request->razon_social;
         $obj->direccion1    = $request->direccion1;
@@ -112,24 +122,20 @@ class ParqueaderosController extends Controller
         $obj->limieteMotos  = $request->limieteMotos;
         return $obj;
     }
-
     static function ObjTipoPagos(TipoPagos $obj, Request $request){
         $obj->nombre    = $request->nombre;
         return $obj;
     }
-
     static function ObjTipoVehiculos(TipoVehiculos $obj, Request $request){
         $obj->nombre            = $request->nombre;
         $obj->tarifaSugerida    = $request->tarifaSugerida;
         $obj->urlLogo           = $request->urlLogo;
         return $obj;
     }
-
     static function ObjTipoUsuarios(TipoUsuarios $obj, Request $request){
         $obj->nombre    = $request->nombre;
         return $obj;
     }
-
     static function ObjTarifas(Tarifas $obj, Request $request){
         $obj->idParqueadero     = $request->idParqueadero;
         $obj->idTipoVehiculo    = $request->idTipoVehiculo;
@@ -141,6 +147,24 @@ class ParqueaderosController extends Controller
         $obj->vigendeDesde      = $request->vigendeDesde;
         $obj->vigenteHasta      = $request->vigenteHasta;
         $obj->estado            = $request->estado;
+        return $obj;
+    }
+
+    static function ObjEntradas(Entradas $obj, Request $request){
+        $obj->idParqueadero = $request->idParqueadero;
+        $obj->idCliente     = $request->idCliente;
+        $obj->idTarifa      = $request->idTarifa;
+        $obj->idUsuario     = $request->idUsuario;
+        $obj->placa         = $request->placa;
+        $obj->descripcion   = $request->descripcion;
+        $obj->nota          = $request->nota;
+        $obj->entradaFecha  = $request->entradaFecha;
+        $obj->entradaHora   = $request->entradaHora;
+        $obj->reciboPrefijo = $request->reciboPrefijo;
+        $obj->reciboNumero  = $request->reciboNumero;
+        $obj->salidaFecha   = ($request->salidaFecha == $request->entradaFecha) ? NULL : $request->salidaFecha;
+        $obj->salidaHora    = $request->salidaHora;
+        $obj->codigoBarras  = $request->codigoBarras;
         return $obj;
     }
 }
