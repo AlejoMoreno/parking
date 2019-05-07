@@ -18,6 +18,7 @@
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="../assets/demo/demo.css" rel="stylesheet" />
   <script src="http://momentjs.com/downloads/moment.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
   
 </head>
 
@@ -25,8 +26,12 @@
 if(isset($_GET["fecha_salida"])){
     $date = date_create($_GET["fecha_salida"]);
 }
+else if(isset($_GET["fecha_entrada"])){
+    $date_entrada = date_create($GET["fecha_entrada"]);
+}
 else{
     $date = date_create(date("d-m-Y H:i:sP"));
+    $date_entrada = date_create(date("d-m-Y H:i:sP"));
 }
 ?>
 
@@ -53,14 +58,18 @@ else{
                -moz-border-radius: 0px 0px 57px 57px;
                -webkit-border-radius: 0px 0px 57px 57px;
                border: 0px solid #000000;width: 100px;text-aling:center;position:absolute;color:white;z-index:1000;"><center><strong>Regresar</strong></center></div></a>
+               <a href="/entradas"><div style="background: rgba(73,155,234,1);border-radius: 0px 0px 57px 57px;
+                -moz-border-radius: 0px 0px 57px 57px;
+                -webkit-border-radius: 0px 0px 57px 57px;
+                border: 0px solid #000000;width: 100px;text-aling:center;position:absolute;color:white;z-index:1000;left:90%;"><center><strong>Nueva</strong></center></div></a>
                <div class="row">
                     <div class="col-md-7">    
                         <center><label>PLACA</label></center>
-                        <input type="placa" maxlength="6" id="placa" name="placa" required>
+                        <input type="placa" maxlength="6" id="placa" name="placa" onkeyup="myFunction()" required>
                     </div>
                     <div class="col-md-5">
                         <center><label>Valor A Pagar</label></center><br>
-                        <h1 style="font-size: 100px;">$ 8.000</h1>
+                        <h1 style="font-size: 100px;"><span id="total">0</span></h1>
                     </div>
                </div>
                <div class="row">
@@ -71,24 +80,26 @@ else{
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                <table class="table">
+                                <table class="table" id="myTable">
                                     <thead class=" text-primary">
                                     <tr>
                                         <th>Placa</th>
-                                        <th>EntradaFecha</th>
-                                        <th>SalidaFecha</th>
+                                        <th>Entrada Fecha</th>
+                                        <th>Entrada Fecha</th>
                                         <th>Tarifa</th>
                                         <th>Recibo</th>
+                                        <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($entradas as $entrada)
                                         <tr>
                                         <td>{{ $entrada->placa }}</td>
-                                        <td>{{ $entrada->entradaFecha }}</td>
-                                        <td>{{ $entrada->salidaFecha }}</td>
-                                        <td>{{ $entrada->idTarifa }}</td>
+                                        <td><?php echo date("d-m-Y", strtotime($entrada->entradaFecha)); ?></td>
+                                        <td><?php echo date("H:i", strtotime($entrada->entradaFecha)); ?></td>
+                                        <td>{{ $entrada->idTarifa[0]->nombreTarifa }}</td>
                                         <td>{{ $entrada->eciboPrefijo . $entrada->reciboNumero }}</td>
+                                        <td><a href="javascript:;" onclick="update('{{ $entrada }}');"><div class="btn btn-warning">></div></a></td>
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -115,7 +126,7 @@ else{
                             </div>
                             <label class="col-md-2">Entrada</label>
                             <div class="col-md-10">
-                                    <input type="datetime-local" id="entradaFecha" class="form-control" onchange="cantidadTiempo()" name="entradaFecha" value="<?php echo date("Y-m-d\TH:i", strtotime(date("d-m-Y H:i:sP"))); ?>" required>
+                                    <input type="datetime-local" id="entradaFecha" class="form-control" onchange="cantidadTiempo()" name="entradaFecha" value="<?php echo date("Y-m-d\TH:i", strtotime(date_format($date_entrada, 'Y-m-d H:i:s'))); ?>" required>
                             </div>
                             <label class="col-md-2">Salida</label>
                             <div class="col-md-10">
@@ -141,22 +152,35 @@ else{
                                 <input type="text" id="nota" name="nota" class="form-control" placeholder="Nota auto">
                             </div>
                             <div class="col-md-1">
-                                <input type="checkbox" name="quincena" id="quincena" class="form-control" onclick="horaSalida('quincena');">
+                                <br>
                             </div>
-                            <span class="col-md-5" style="margin-top:1%;">Quincena</span>
+                            <div class="col-md-4">
+                                <select name="idTipoPago" id="idTipoPago" class="form-control">
+                                    <option>Seleccione tipo Pago</option>
+                                    @foreach ($tipoPagos as $tipoPago)
+                                    <option value="{{ $tipoPago->id }}">{{ $tipoPago->nombre }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                             <div class="col-md-1">
                                 <input type="checkbox" name="mensualidad" id="mensualidad" class="form-control" onclick="horaSalida('mensualidad')">
                             </div>
                             <span class="col-md-5" style="margin-top:1%;">Mensualidad</span>
                             <div class="col-md-5">
-                                <input type="submit" value="registrar" name="registrar" style="width: 100%;" class="btn btn-warning">
+                                <input type="submit" value="registrar" name="registrar" id="registrar" style="width: 100%;" class="btn btn-warning">
                             </div>
                             <label class="col-md-1"><br></label>
                             <div class="col-md-6">
-                                <input type="submit" value="pagar" name="pagar" style="width: 100%;"  class="btn btn-success">
+                                <input type="submit" value="pagar" name="pagar" id="pagar" style="width: 100%;"  class="btn btn-success">
                             </div>
                         </div>
                         
+                        <input type="hidden" id="idEntrada" name="idEntrada" value="0">
+                        <input type="hidden" id="subtotal" name="subtotal" value="0">
+                        <input type="hidden" id="valor" name="valor" value="0">
+                        <input type="hidden" id="valorDescuento" name="valorDescuento" value="0">
+                        <input type="hidden" id="iva" name="iva" value="0">
+                        <input type="hidden" id="retencion" name="retencion" value="0">
                         <input type="hidden" value="{{ Session::get('id') }}" id="idUsuario" name="idUsuario" placeholder="idUsuaroi">
                         <input type="hidden" value="{{ $parqueaderos->id }}" id="idParqueadero" name="idParqueadero" placeholder="idparqueadero">
                         <input type="hidden" id="reciboPrefijo" value="FA" name="reciboPrefijo" placeholder="reciboPrefijo">
@@ -222,7 +246,87 @@ else{
     let hora = fecha_salida[2].split("T")[1].split(":")[0] - fecha_entrada[2].split("T")[1].split(":")[0];
     let min = fecha_salida[2].split("T")[1].split(":")[1] - fecha_entrada[2].split("T")[1].split(":")[1];
 
+    /*if(min<0){
+        min = Math.abs(min);
+    }
+    if(hora<0){
+        hora = Math.abs(hora);
+    }
+    if(dia<0){
+        dia = Math.abs(dia);
+    }
+    if(mes<0){
+        mes = Math.abs(mes);
+    }*/
+
+    console.log(min);
+
     $('#resta').html(mes + "Mes " + dia + "Dia " + hora + "hora " + min + "min ");
+
+    //calcular tarifa
+    calcularTarifa(ano,mes,dia,hora,min);
+  }
+
+  function calcularTarifa(ano,mes,dia,hora,min){
+    var tarifa_select = $('#idTarifa').val();
+    parametros = {
+        "id" : tarifa_select
+    };
+    $.ajax({
+        data:  parametros,
+        url:   '/servicios/'+tarifa_select,
+        type:  'get',
+        success:  function (response) {
+            console.log(response.tarifas[0]);
+            tarifas = response.tarifas[0];
+
+            //min
+            min_1 = min;
+            hora_1 = hora;
+            dia_1 = dia;
+            mes_1 = mes;
+
+            total = 0;
+            
+            if(mes_1>=1 ){
+                total = tarifas.mensualidad * (mes);
+            }
+            if(dia_1>30 && mes_1==0){
+                total = tarifas.mensualidad;
+            }
+            if(dia_1<=30 && mes_1==0){
+                total = tarifas.quincena * (dia * 2);
+            }
+            if(hora_1>11 && dia_1==0 && mes_1==0){
+                total = tarifas.quincena;
+            }
+            if(hora_1<=11 && dia_1==0 && mes_1==0){
+                total = tarifas.valorHora;
+            }
+            if(min_1>45 && hora_1==0 && dia_1==0 && mes_1==0){
+                total = tarifas.valorHora;
+            }
+            if(min_1<=45 && hora_1==0 && dia_1==0 && mes_1==0){
+                total = tarifas.valorMinuto;
+            }
+            
+            
+            
+            
+            pago_mes = mes * tarifas.mensualidad;
+            pago_hora = hora * tarifas.valorHora;
+            pago_min = min * tarifas.valorMinuto;
+            pago_quin = dia * tarifas.quincena;
+
+            
+            $('#total').text(numeral(total).format('$0,0'));
+            $('#subtotal').val(total);
+            $('#valor').val(total);
+            $('#valorDescuento').val(0);
+            $('#iva').val(0);
+            $('#retencion').val(0);
+        }
+    });
   }
   </script>
 
@@ -258,9 +362,62 @@ else{
   <!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support SweetAlert -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
 
-  <script>$(document).ready(function(){
+
+<script>
+  $(document).ready(function(){
+        //cantidadTiempo();
+        $('#registrar').show();
+        $('#pagar').hide();
+        $('#idTipoPago').hide();
+    });
+    function update(obj){
+        var data = JSON.parse(obj);
+        console.log(data);
+        $('#entradaFecha').val(data.entradaFecha);
+        $('#idCliente').val(data.idCliente);
+        $('#idTarifa').val(data.idTarifa[0].id);
+        $('#idParqueadero').val(data.idParqueadero);
+        $('#idUsuario').val(data.idUsuario);
+        $('#nota').val(data.nota);
+        $('#descripcion').val(data.descripcion);
+        $('#placa').val(data.placa);
+        $('#reciboNumero').val(data.reciboNumero);
+        $('#reciboPrefijo').val(data.reciboPrefijo);
+        if((data.salidaFecha !=  null)){
+            $('#salidaFecha').val( data.salidaFecha );
+        }
+        $('#salidaHora').val(data.salidaHora);
+        $('#idEntrada').val(data.id);
+        //bloquear los botones
+        $('#registrar').hide();
+        $('#pagar').show();
+        $('#idTipoPago').show();
+
+        //saber la cantidad de tiempo
         cantidadTiempo();
-    });</script>
+    }
+</script>
+
+<script>
+function myFunction() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("placa");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+        } else {
+        tr[i].style.display = "none";
+        }
+    }       
+    }
+}
+</script>
 </body>
 
 </html>

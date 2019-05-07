@@ -7,6 +7,7 @@ use App\TipoVehiculos;
 use App\TipoUsuarios;
 use App\Tarifas;
 use App\Entradas;
+use App\Pagos;
 
 class ParqueaderosController extends Controller
 {
@@ -88,25 +89,50 @@ class ParqueaderosController extends Controller
         }
         return redirect('/servicios');
     }
-    public function createEntradas(Request $request){
-        $obj = Entradas::where('placa','=',$request->placa)->where("salidaFecha","=",NULL)->first();
+    public function createPagos(Request $request){
+        $obj = Pagos::where('id','=',$request->id)->first();
         if(sizeof($obj) != 0 ){ //actualizar
-            ParqueaderosController::ObjEntradas($obj,$request);
+            ParqueaderosController::ObjPagos($obj,$request);
             $obj->save();
         }
         else { //crear
-            $obj = new Entradas();
-            $obj_1 = Entradas::where('id','>',0)->orderBy('reciboNumero','DESC')->get();
-            if(sizeof($obj_1) != 0 ){
-                $request->reciboNumero = ($obj_1[0]->reciboNumero + 1);
-            }
-            else{
-                $request->reciboNumero = "0";
-            }
-            ParqueaderosController::ObjEntradas($obj,$request);
+            $obj = new Pagos();
+            ParqueaderosController::ObjPagos($obj,$request);
             $obj->save();
         }
-        return redirect('/entradas');
+        return redirect('/servicios');
+    }
+    public function createEntradas(Request $request){
+        if($request->registrar == "registrar"){
+            $obj = Entradas::where('placa','=',$request->placa)->where("salidaFecha","=",NULL)->first();
+            if(sizeof($obj) != 0 ){ //actualizar
+                ParqueaderosController::ObjEntradas($obj,$request);
+                $obj->save();
+            }
+            else { //crear
+                $obj = new Entradas();
+                $obj_1 = Entradas::where('id','>',0)->orderBy('reciboNumero','DESC')->get();
+                if(sizeof($obj_1) != 0 ){
+                    $request->reciboNumero = ($obj_1[0]->reciboNumero + 1);
+                }
+                else{
+                    $request->reciboNumero = "0";
+                }
+                ParqueaderosController::ObjEntradas($obj,$request);
+                $obj->save();
+            }
+            return redirect('/entradas');
+        }
+        else if($request->pagar == "pagar"){
+            $obj = new Pagos();
+            ParqueaderosController::ObjPagos($obj,$request);
+            $obj->save();
+            $obj_1 = Entradas::where('placa','=',$request->placa)->where("salidaFecha","=",NULL)->first();
+            ParqueaderosController::ObjEntradas($obj_1,$request);
+            $obj_1->save();
+            return redirect("/imprimir/".$obj->id);
+        }
+        
     }
     static function ObjParqueaderos(Parqueaderos $obj, Request $request){
         $obj->razon_social  = $request->razon_social;
@@ -164,6 +190,20 @@ class ParqueaderosController extends Controller
         $obj->reciboNumero  = $request->reciboNumero;
         $obj->salidaFecha   = ($request->salidaFecha == $request->entradaFecha) ? NULL : $request->salidaFecha;
         $obj->salidaHora    = $request->salidaHora;
+        $obj->codigoBarras  = $request->codigoBarras;
+        return $obj;
+    }
+
+    static function ObjPagos(Pagos $obj, Request $request){
+        $obj->idParqueadero = $request->idParqueadero;
+        $obj->idEntrada     = $request->idEntrada;
+        $obj->idUsuario     = $request->idUsuario;
+        $obj->idTipoPago    = $request->idTipoPago;
+        $obj->subtotal      = $request->subtotal;
+        $obj->valor         = $request->valor;
+        $obj->valorDescuento = $request->valorDescuento;
+        $obj->iva           = $request->iva;
+        $obj->retencion     = $request->retencion;
         $obj->codigoBarras  = $request->codigoBarras;
         return $obj;
     }

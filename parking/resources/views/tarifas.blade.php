@@ -30,7 +30,7 @@
                     <label class="col-md-2 ">Valor Fracción (<small>$</small>)</label><div class="col-md-4"><input type="number" id="valorMinuto" name="valorMinuto" placeholder="ej.(500)" class="col-md-10 form-control" required></div>
                     <label class="col-md-2 ">Valor Hora (<small>$</small>)</label><div class="col-md-4"><input type="number" id="valorHora" name="valorHora" placeholder="ej.(1000)" class="col-md-10 form-control" required></div>
                     <div class="col-md-12"><br></div>
-                    <label class="col-md-2 ">Valor Quincena (<small>$</small>)</label><div class="col-md-4"><input type="number" id="quincena" name="quincena" placeholder="ej.(300)" class="col-md-10 form-control" required></div>
+                    <label class="col-md-2 ">Valor 12 Horas (<small>$</small>)</label><div class="col-md-4"><input type="number" id="quincena" name="quincena" placeholder="ej.(300)" class="col-md-10 form-control" required></div>
                     <label class="col-md-2 ">Valor Mensualidad (<small>$</small>)</label><div class="col-md-4"><input type="number" id="mensualidad" name="mensualidad" placeholder="ej.(300)" class="col-md-10 form-control" required></div>
                     <div class="col-md-12"><br></div><label class="col-md-2 ">Vigente Desde</label><div class="col-md-4"><input type="date" id="vigendeDesde" name="vigendeDesde" placeholder="" class="col-md-10 form-control" required></div>
                     <label class="col-md-2 ">Vigente Hasta</label><div class="col-md-4"><input type="date" id="vigenteHasta" name="vigenteHasta" placeholder="" class="col-md-10 form-control" required></div>

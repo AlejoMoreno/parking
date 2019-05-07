@@ -23,16 +23,28 @@ Route::get('/salida', function(){
     return view('salida');
 });
 
+Route::get('/imprimir/{id}', function($id){
+    $pagos = App\Pagos::where('id','=',$id)->get();
+    return view('imprimir',[
+        "pagos"=>$pagos
+    ]);
+});
+
 Route::get('/entradas', function(){
     $entradas = App\Entradas::where('salidaFecha','=',NULL)->get();
+    foreach($entradas as $obj){
+        $obj->idTarifa = App\Tarifas::where('id','=',$obj->idTarifa)->get();
+    }
     $tarifas = App\Tarifas::all();
     $clientes = App\Clientes::all();
+    $tipoPagos = App\TipoPagos::all();
     $parqueaderos = App\Parqueaderos::where('id','>','0')->first();
     return view('entradas',[
         "entradas"=>$entradas,
         "parqueaderos"=>$parqueaderos,
         "tarifas"=>$tarifas,
-        "clientes"=>$clientes
+        "clientes"=>$clientes,
+        "tipoPagos"=>$tipoPagos
     ]);
 });
 
@@ -64,6 +76,16 @@ Route::get('/servicios', function(){
     ]);
 });
 
+Route::get('/servicios/{id}', function($id){
+    $tarifas = App\Tarifas::where('id','=',$id)->get();
+    foreach($tarifas as $obj){
+        $obj->idTipoVehiculo = App\TipoVehiculos::where('id','=',$obj->idTipoVehiculo)->get();
+    }
+    return array(
+        "tarifas"=>$tarifas
+    );
+});
+
 Route::get('/clientes', function(){
     $clientes = App\Clientes::all();
     return view('clientes',[
@@ -93,6 +115,7 @@ Route::post('/tipoVehiculo/create', 'ParqueaderosController@tipoVehiculo');
 Route::post('/tipoUsuarios/create', 'ParqueaderosController@createtipoUsuarios');
 Route::post('/tarifas/create', 'ParqueaderosController@createTarifas');
 Route::post('/entradas/create', 'ParqueaderosController@createEntradas');
+Route::post('/pagos/createPagos', 'ParqueaderosController@createPagos');
 
 /**
  * CONTROLLER general
