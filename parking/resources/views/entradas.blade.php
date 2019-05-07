@@ -62,6 +62,50 @@ else{
                 -moz-border-radius: 0px 0px 57px 57px;
                 -webkit-border-radius: 0px 0px 57px 57px;
                 border: 0px solid #000000;width: 100px;text-aling:center;position:absolute;color:white;z-index:1000;left:90%;"><center><strong>Nueva</strong></center></div></a>
+               <a href="#" data-toggle="modal" data-target="#myModal"><div style="background: rgba(73,155,234,1);border-radius: 0px 0px 57px 57px;
+                -moz-border-radius: 0px 0px 57px 57px;
+                -webkit-border-radius: 0px 0px 57px 57px;
+                border: 0px solid #000000;width: 100px;text-aling:center;position:absolute;color:white;z-index:1000;left:80%;"><center><strong>imprimir</strong></center></div></a>
+               
+               
+               <!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Imprimir</h4>
+        </div>
+        <div class="modal-body">
+          <div id="imprimir_recibo" style="background: white;">
+            <center><div style="font-size:12px;">
+                {{ $parqueaderos->razon_social }}<br><br>
+                NIT. {{ $parqueaderos->nit }}<br>
+                Documento Oficial de Autorización de Numeración de Recibo<br>
+                TEL. {{ $parqueaderos->telefonos }}<br>
+                DIR. {{ $parqueaderos->direccion1 }}<br>
+                {{ $parqueaderos->propietario }}<br><br>
+            </div></center>
+            <div style="font-size:12px;text-aling: left;">
+                <?php  echo date('Y-m-d');?><br>
+                Placa: <label id="impplaca"></label><br>
+                Entrada: <label id="impentrada"></label><br>
+                Recibo: <label id="imprecibo"></label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+            <div class="btn btn-success" data-dismiss="modal" onclick="imprimir();">Imprimir</div>
+          <div type="button" class="btn btn-default" data-dismiss="modal">Close</div>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+
+
                <div class="row">
                     <div class="col-md-7">    
                         <center><label>PLACA</label></center>
@@ -156,7 +200,6 @@ else{
                             </div>
                             <div class="col-md-4">
                                 <select name="idTipoPago" id="idTipoPago" class="form-control">
-                                    <option>Seleccione tipo Pago</option>
                                     @foreach ($tipoPagos as $tipoPago)
                                     <option value="{{ $tipoPago->id }}">{{ $tipoPago->nombre }}</option>
                                     @endforeach
@@ -229,6 +272,23 @@ else{
   </div>
 
   
+
+  <script>
+  
+  function imprimir(){
+    var divToPrint=document.getElementById('imprimir_recibo');
+
+    var newWin=window.open('','Print-Window');
+
+    newWin.document.open();
+
+    newWin.document.write('<html><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
+
+    newWin.document.close();
+
+    setTimeout(function(){newWin.close();},10);
+  }
+  </script>
 
   <script>
 
@@ -513,6 +573,10 @@ else{
         $('#registrar').hide();
         $('#pagar').show();
         $('#idTipoPago').show();
+
+        $('#impplaca').text(data.placa);
+        $('#impentrada').text(data.entradaFecha);
+        $('#imprecibo').text(data.reciboNumero);
 
         //saber la cantidad de tiempo
         cantidadTiempo();

@@ -6,95 +6,97 @@
 	}
 </style>
 
-<body style="width: 300px;margin-left: 35%;">
-<div><center><strong>NOMBRE RAON SOCIAL<br>NIT. NIT</strong><br><br>SUCURSAL</center><br></div>
+<a href="/entradas"><div style="background: rgba(73,155,234,1);border-radius: 0px 0px 57px 57px;
+	-moz-border-radius: 0px 0px 57px 57px;
+	-webkit-border-radius: 0px 0px 57px 57px;
+	border: 0px solid #000000;width: 100px;text-aling:center;position:absolute;color:white;z-index:1000;"><center><strong>Regresar</strong></center></div></a>
+  
+  
 
-<center>
-	<strong>Numeero 7897</strong><br>
-	<strong>FECHA<br>
-	<strong>VENDEDOR CEDULA<br></strong>
-</center>
+<body style="width: 300px;margin-left: 35%;" id="imprimir_recibo">
+	<div><center><strong>{{ $parqueaderos->rozon_social }}<br>NIT. {{ $parqueaderos->nit }}</strong><br><br>SUCURSAL FACA</center><br></div>
+
+	<center>
+		<strong>Número {{ $pagos[0]->idEntrada[0]->reciboNumero }}</strong><br>
+		<strong>{{ $pagos[0]->idEntrada[0]->created_at }}<br>
+		<strong>OPERARIO {{ $pagos[0]->idUsuario[0]->nombres }}<br></strong>
+	</center>
 
 	<div id="tablas"><br>
 		<center>
-<table class="table">
-	<tr>
-		<td class="tg-yw4l" colspan="3">
-			<strong>CLIENTE:</strong><br>
-			NOMBRE<br>
-			Nit. NIT<br>
-			Dir. DIRE
-		</td>
-	</tr>
-</table>
-</center>
-<br>
-<table id="productos" class="table table-striped table-sm">
-	<thead>
+	<table class="table">
 		<tr>
-			<th class="tg-le8v"><strong>Referencia</strong></th>
-			<th class="tg-le8v"><strong>Nombre</strong></th>
-			<th class="tg-le8v"><strong>Cantidad</strong></th>
-			<th class="tg-le8v"><strong>Iva</strong></th>
-			<th class="tg-le8v"><strong>Total</strong></th>
+			<td class="tg-yw4l" colspan="3">
+				<strong>CLIENTE: </strong><br>
+				NOMBRE {{ $pagos[0]->idEntrada[0]->idCliente[0]->titular }}<br>
+				Nit. {{ $pagos[0]->idEntrada[0]->idCliente[0]->cedula }}<br>
+			</td>
 		</tr>
-	</thead>
-	<tr>
-            <td class="tg-yw4l">ref</td>
-            <td class="tg-yw4l">nomb</td>
-            <td class="tg-yw4l">3</td>
-            <td class="tg-yw4l">3</td>
-            <td class="tg-yw4l">10</td>
-        </tr>
-</table>
+	</table>
+	</center>
+	<br>
+	<table id="productos" class="table table-striped table-sm">
+		<thead>
+			<tr>
+				<th class="tg-le8v"></th>
+				<th class="tg-le8v"></th>
+			</tr>
+		</thead>
+		<tr>
+				<td class="tg-yw4l">
+					<strong>Servicio</strong><br>{{ $pagos[0]->idEntrada[0]->idTarifa[0]->nombreTarifa}}<br>
+					<strong>Hora Entrada</strong><br>{{ $pagos[0]->idEntrada[0]->entradaFecha}}
+				</td>
+				<td class="tg-yw4l">
+						<strong>Hora Salida</strong><br>{{ $pagos[0]->idEntrada[0]->salidaFecha}}<br>
+						<strong>Total</strong><br>{{ $pagos[0]->subtotal}}
+				</td>
+			</tr>
+	</table>
 
-<br><br>
-<table class="table">
-	<tr>
-		<td style="width: 65%"></td>
-		<td>
-			<table class="">
-				<tr>
-					<td><strong>Subtotal: </strong></td>
-					<td>$ 99999</td>
-				</tr>
-				<tr>
-					<td><strong>Iva: </strong></td>
-					<td>$ 9999</td>
-				</tr>
-				<tr>
-					<td><strong>Retefuente:</strong></td>
-					<td>$ 9999</td>
-				</tr>
-				<tr>
-					<td><strong>Total: </strong></td>
-					<td><strong>$ 789789798</strong></td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-	<tr>
-		<td style="width: 65%"><strong>Pago en efectivo: </strong></td>
-		<td>
-			<table class="">
-				<tr>
-					<td><strong>Total: </strong></td>
-					<td><strong>$ 789789</strong></td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-</table>
-<br><br>
+	<br><br>
+	<table class="table">
+		<tr>
+			<td style="width: 35%;position:relative;left:0px;"></td>
+			<td>
+				<table class="">
+					<tr>
+						<td><strong>Subtotal: </strong></td>
+						<td>$ {{ $pagos[0]->subtotal}}</td>
+					</tr>
+					<tr>
+						<td><strong>Iva: </strong></td>
+						<td>$ {{ $pagos[0]->iva}}</td>
+					</tr>
+					<tr>
+						<td><strong>Total: </strong></td>
+						<td><strong>$ {{ $pagos[0]->valor}}</strong></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td style="width: 65%"><strong>Pago en {{ $pagos[0]->idTipoPago[0]->nombre}}: </strong></td>
+			<td>
+				<table class="">
+					<tr>
+						<td><strong>Total: </strong></td>
+						<td><strong>$ 789789</strong></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+	<br><br>
 
-<center>
-	-----------------------------------------------<br>
-	Parkapp <br>
-	Desarrollado por Interconsis - Wakusoft <br>
-	NIT. 1030570356 <br>
-	-----------------------------------------------
-</center>
-</div>
+	<center>
+		-----------------------------------------------<br>
+		Parkapp <br>
+		Desarrollado por Interconsis - Wakusoft <br>
+		NIT. 1030570356 <br>
+		-----------------------------------------------
+	</center>
+	</div>
 </body>
 <style type="text/css">
 .tg  {border-collapse:collapse;border-spacing:0;background-color: white;border: 1px solid;color: black;}
@@ -103,7 +105,7 @@
 .tg .tg-le8v{background-color:#BD0A29;vertical-align:top;color:white;}
 .tg .tg-yw4l{vertical-align:top;font-size: 11px;}
 table{
-	width: 120%;
+	width:100%;
 }
 #logo1,#datosempresa,#numeroremision{
 	width: 40%;
@@ -148,3 +150,23 @@ strong{
 	left: 5%;
 }
 </style>
+
+
+<script>
+
+
+		imprimir();
+				function imprimir(){
+				  var divToPrint=document.getElementById('imprimir_recibo');
+			  
+				  var newWin=window.open('','Print-Window');
+			  
+				  newWin.document.open();
+			  
+				  newWin.document.write('<html><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
+			  
+				  newWin.document.close();
+			  
+				  setTimeout(function(){newWin.close();},10);
+				}
+				</script>

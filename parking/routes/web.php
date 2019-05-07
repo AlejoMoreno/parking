@@ -24,9 +24,28 @@ Route::get('/salida', function(){
 });
 
 Route::get('/imprimir/{id}', function($id){
+    $parqueaderos = App\Parqueaderos::where('id','>','0')->first();
     $pagos = App\Pagos::where('id','=',$id)->get();
+    foreach($pagos as $obj){
+        $obj->idEntrada = App\Entradas::where('id','=',$obj->idEntrada)->get();
+        $obj->idUsuario = App\Usuarios::where('id','=',$obj->idUsuario)->get();
+        $obj->idTipoPago = App\TipoPagos::where('id','=',$obj->idTipoPago)->get();
+        foreach($obj->idEntrada as $obj1){
+            $obj1->idCliente = App\Clientes::where('id','=',$obj1->idCliente)->get();
+            $obj1->idTarifa = App\Tarifas::where('id','=',$obj1->idTarifa)->get();
+        }
+    }
     return view('imprimir',[
+        "parqueaderos"=>$parqueaderos,
         "pagos"=>$pagos
+    ]);
+});
+Route::get('/imprimir2/{id}', function($id){
+    $parqueaderos = App\Parqueaderos::where('id','>','0')->first();
+    $entradas = App\Entradas::where('id','=',$id)->get();
+    return view('imprimir2',[
+        "parqueaderos"=>$parqueaderos,
+        "entradas"=>$entradas
     ]);
 });
 

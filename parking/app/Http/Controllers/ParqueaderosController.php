@@ -121,7 +121,7 @@ class ParqueaderosController extends Controller
                 ParqueaderosController::ObjEntradas($obj,$request);
                 $obj->save();
             }
-            return redirect('/entradas');
+            return redirect("/imprimir2/".$obj->id);
         }
         else if($request->pagar == "pagar"){
             $obj = new Pagos();
