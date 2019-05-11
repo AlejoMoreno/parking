@@ -50,7 +50,7 @@ Route::get('/imprimir2/{id}', function($id){
 });
 
 Route::get('/entradas', function(){
-    $entradas = App\Entradas::where('salidaFecha','=',NULL)->get();
+    $entradas = DB::select("SELECT * FROM ENTRADAS WHERE salidaFecha is null");
     foreach($entradas as $obj){
         $obj->idTarifa = App\Tarifas::where('id','=',$obj->idTarifa)->get();
     }
@@ -112,6 +112,18 @@ Route::get('/clientes', function(){
     ]);
 });
 
+Route::get('/pagos', function(){
+    $pagos = App\Pagos::all();
+    foreach($pagos as $obj){
+        $obj->idEntrada = App\Entradas::where('id','=',$obj->idEntrada)->get();
+    }
+    $parqueaderos = App\Parqueaderos::where('id','>','0')->first();
+    return view('pagos',[
+        "pagos"=>$pagos,
+        "parqueaderos"=>$parqueaderos
+    ]);
+});
+
 Route::get('/configuracion', function(){
     $parqueaderos = App\Parqueaderos::where('id','>','0')->first();
     $tipoPagos = App\TipoPagos::all();
@@ -139,7 +151,7 @@ Route::post('/pagos/createPagos', 'ParqueaderosController@createPagos');
 /**
  * CONTROLLER general
  */
-
+Route::post('/entradas/calcularTarifa', 'Controller@calcularTarifa');
 
 
 /**

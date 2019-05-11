@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!-- CSS Files -->
   <link href="../assets/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
-  <!-- CSS Just for demo purpose, don't include it in your project -->
+  <!-- CSS Just for demo purpose, dont include it in your project -->
   <link href="../assets/demo/demo.css" rel="stylesheet" />
   <script src="http://momentjs.com/downloads/moment.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
@@ -62,7 +62,7 @@ else{
                 -moz-border-radius: 0px 0px 57px 57px;
                 -webkit-border-radius: 0px 0px 57px 57px;
                 border: 0px solid #000000;width: 100px;text-aling:center;position:absolute;color:white;z-index:1000;left:90%;"><center><strong>Nueva</strong></center></div></a>
-               <a href="#" data-toggle="modal" data-target="#myModal"><div style="background: rgba(73,155,234,1);border-radius: 0px 0px 57px 57px;
+               <a href="#" data-toggle="modal" data-target="#myModal" id="imprimir"><div style="background: rgba(73,155,234,1);border-radius: 0px 0px 57px 57px;
                 -moz-border-radius: 0px 0px 57px 57px;
                 -webkit-border-radius: 0px 0px 57px 57px;
                 border: 0px solid #000000;width: 100px;text-aling:center;position:absolute;color:white;z-index:1000;left:80%;"><center><strong>imprimir</strong></center></div></a>
@@ -80,19 +80,19 @@ else{
         </div>
         <div class="modal-body">
           <div id="imprimir_recibo" style="background: white;">
-            <center><div style="font-size:12px;">
-                {{ $parqueaderos->razon_social }}<br><br>
-                NIT. {{ $parqueaderos->nit }}<br>
-                Documento Oficial de Autorización de Numeración de Recibo<br>
-                TEL. {{ $parqueaderos->telefonos }}<br>
-                DIR. {{ $parqueaderos->direccion1 }}<br>
-                {{ $parqueaderos->propietario }}<br><br>
-            </div></center>
-            <div style="font-size:12px;text-aling: left;">
-                <?php  echo date('Y-m-d');?><br>
-                Placa: <label id="impplaca"></label><br>
-                Entrada: <label id="impentrada"></label><br>
-                Recibo: <label id="imprecibo"></label>
+            <div style="">
+                ----------------------------------------------------<br>
+                <strong>{{ $parqueaderos->razon_social }}</strong><br>
+                <strong>NIT.</strong> {{ $parqueaderos->nit }}<br>
+                <strong>TEL.</strong> {{ $parqueaderos->telefonos }}<br>
+                <strong>DIR.</strong> {{ $parqueaderos->direccion1 }}<br>
+                -----------------------------------------------------
+                <br>
+            </div>
+            <div style="">
+                <strong>Placa:</strong> <span id="impplaca"></span><br>
+                <strong>Entrada:</strong> <span id="impentrada"></span><br>
+                <strong>Recibo:</strong> <span id="imprecibo"></span>
             </div>
           </div>
         </div>
@@ -136,14 +136,15 @@ else{
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($entradas as $entrada)
+                                        @foreach ($entradas as $entrada) 
+                                        <?php $update = json_encode ($entrada); ?>
                                         <tr>
                                         <td>{{ $entrada->placa }}</td>
                                         <td><?php echo date("d-m-Y", strtotime($entrada->entradaFecha)); ?></td>
                                         <td><?php echo date("H:i", strtotime($entrada->entradaFecha)); ?></td>
                                         <td>{{ $entrada->idTarifa[0]->nombreTarifa }}</td>
-                                        <td>{{ $entrada->eciboPrefijo . $entrada->reciboNumero }}</td>
-                                        <td><a href="javascript:;" onclick="update('{{ $entrada }}');"><div class="btn btn-warning">></div></a></td>
+                                        <td>{{ $entrada->reciboPrefijo . $entrada->reciboNumero }}</td>
+                                        <td><a href="javascript:;" onclick="update('{{ $update }}');"><div class="btn btn-warning">></div></a></td>
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -161,20 +162,22 @@ else{
                             </div>
                             <label class="col-md-2">Servicio</label>
                             <div class="col-md-10">
-                                <select id="idTarifa" name="idTarifa" class="form-control" required>
+                                <select id="idTarifa" name="idTarifa" class="form-control" onchange="calcularTarifaServidor()" required>
                                     <option value="">Seleccione Servicio</option>
                                     @foreach ($tarifas as $tarifa)
                                     <option value="{{ $tarifa->id }}">{{ $tarifa->nombreTarifa }}</option>
                                     @endforeach
                                 </select>
                             </div>
-                            <label class="col-md-2">Entrada</label>
-                            <div class="col-md-10">
-                                    <input type="datetime-local" id="entradaFecha" class="form-control" onchange="cantidadTiempo()" name="entradaFecha" value="<?php echo date("Y-m-d\TH:i", strtotime(date_format($date_entrada, 'Y-m-d H:i:s'))); ?>" required>
+                            <!--<label class="col-md-2">Entrada</label>-->
+                            <div class="col-md-12">
+                                    <input type="hidden" id="entradaFecha" class="form-control" name="entradaFecha" value="<?php echo date('d-m-Y H:i:s'); ?>" required disabled>
+                                    <!--<input type="datetime-local" id="entradaFecha" class="form-control" onchange="calcularTarifaServidor()" name="entradaFecha" value="<?php echo date("Y-m-d\TH:i", strtotime(date_format($date_entrada, 'Y-m-d H:i:s'))); ?>" required>-->
                             </div>
                             <label class="col-md-2">Salida</label>
                             <div class="col-md-10">
-                                <input type="datetime-local" id="salidaFecha" class="form-control" onchange="cantidadTiempo()" name="salidaFecha" value="<?php echo date("Y-m-d\TH:i", strtotime(date_format($date, 'Y-m-d H:i:s'))); ?>">
+                                <?php echo "<label>".date('d-m-Y')."</label> <label id='salidaFecha'></label>"; ?>
+                                <!--<input type="datetime-local" id="salidaFecha" class="form-control" onchange="calcularTarifaServidor()" name="salidaFecha" value="<?php echo date("Y-m-d\TH:i", strtotime(date_format($date, 'Y-m-d H:i:s'))); ?>">-->
                             </div>
                             <label class="col-md-2">Recibo</label>
                             <div class="col-md-5">
@@ -186,7 +189,6 @@ else{
                             <label class="col-md-2">Cliente</label>
                             <div class="col-md-5">
                                 <select id="idCliente" name="idCliente" class="form-control">
-                                    <option value="">Seleccione Cliente</option>
                                     @foreach ($clientes as $cliente)
                                     <option value="{{ $cliente->id }}">{{ $cliente->titular }}</option>
                                     @endforeach
@@ -198,7 +200,7 @@ else{
                             <div class="col-md-1">
                                 <br>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4" id="divtipopago">
                                 <select name="idTipoPago" id="idTipoPago" class="form-control">
                                     @foreach ($tipoPagos as $tipoPago)
                                     <option value="{{ $tipoPago->id }}">{{ $tipoPago->nombre }}</option>
@@ -206,13 +208,16 @@ else{
                                 </select>
                             </div>
                             <div class="col-md-1">
+                                <input type="checkbox" name="plena" id="plena" class="form-control">
+                            </div>
+                            <span class="col-md-4" style="margin-top:1%;">Tarifa Plena</span>
+                            <div class="col-md-1">
                                 <input type="checkbox" name="mensualidad" id="mensualidad" class="form-control" onclick="horaSalida('mensualidad')">
                             </div>
-                            <span class="col-md-5" style="margin-top:1%;">Mensualidad</span>
-                            <div class="col-md-5">
-                                <input type="submit" value="registrar" name="registrar" id="registrar" style="width: 100%;" class="btn btn-warning">
+                            <span class="col-md-4" style="margin-top:1%;">Mensualidad</span>
+                            <div class="col-md-6">
+                                <div onclick="registrar()" value="registrar" name="registrar" id="registrar" style="width: 100%;" class="btn btn-warning">Registrar</div>
                             </div>
-                            <label class="col-md-1"><br></label>
                             <div class="col-md-6">
                                 <input type="submit" value="pagar" name="pagar" id="pagar" style="width: 100%;"  class="btn btn-success">
                             </div>
@@ -286,7 +291,10 @@ else{
 
     newWin.document.close();
 
-    setTimeout(function(){newWin.close();},10);
+    setTimeout(function(){window.location.href = "/entradas"; newWin.close();},10);
+
+    
+
   }
   </script>
 
@@ -298,7 +306,7 @@ else{
   }
   
   function cantidadTiempo(){
-    var fecha_entrada = $('#entradaFecha').val().split('-');
+    /*var fecha_entrada = $('#entradaFecha').val().split('-');
     var fecha_salida = $('#salidaFecha').val().split('-');
     let ano = fecha_salida[0] - fecha_entrada[0];
     let mes = fecha_salida[1] - fecha_entrada[1];
@@ -315,7 +323,7 @@ else{
     if(dia < 0){
         dia = dia + 31;
     }
-
+*/
     /*var fecha1 = moment($('#entradaFecha').val());
     var fecha2 = moment($('#salidaFecha').val());
     
@@ -340,16 +348,17 @@ else{
         mes = Math.abs(mes);
     }*/
 
-    console.log(min);
+    /*console.log(min);
 
-    $('#resta').html(mes + "Mes " + dia + "Dia " + hora + "hora " + min + "min ");
+    $('#resta').html(mes + "Mes " + dia + "Dia " + hora + "hora " + min + "min ");*/
 
     //calcular tarifa
-    calcularTarifa(ano,mes,dia,hora,min);
+    //calcularTarifaServidor();
+    //calcularTarifa(ano,mes,dia,hora,min);
   }
 
   function calcularTarifa(ano,mes,dia,hora,min){
-    var tarifa_select = $('#idTarifa').val();
+    /*var tarifa_select = $('#idTarifa').val();
     parametros = {
         "id" : tarifa_select
     };
@@ -504,7 +513,7 @@ else{
             $('#iva').val(0);
             $('#retencion').val(0);
         }
-    });
+    });*/
   }
   </script>
 
@@ -546,7 +555,8 @@ else{
         //cantidadTiempo();
         $('#registrar').show();
         $('#pagar').hide();
-        $('#idTipoPago').hide();
+        $('#divtipopago').hide();
+        mueveReloj();
     });
     function update(obj){
         var data = JSON.parse(obj);
@@ -574,12 +584,15 @@ else{
         $('#pagar').show();
         $('#idTipoPago').show();
 
+        date = new Date(data.entradaFecha);
+        $('#impentrada').text(date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear() + " Hora: " + date.getHours() + ":" + date.getMinutes() );
+
         $('#impplaca').text(data.placa);
-        $('#impentrada').text(data.entradaFecha);
+        //$('#impentrada').text(data.entradaFecha);
         $('#imprecibo').text(data.reciboNumero);
 
         //saber la cantidad de tiempo
-        cantidadTiempo();
+        calcularTarifaServidor();
     }
 </script>
 
@@ -602,7 +615,112 @@ function myFunction() {
     }       
     }
 }
+
+
+
+
+function zfill(number, width) {
+    var numberOutput = Math.abs(number); /* Valor absoluto del número */
+    var length = number.toString().length; /* Largo del número */ 
+    var zero = "0"; /* String de cero */  
+    
+    if (width <= length) {
+        if (number < 0) {
+             return ("-" + numberOutput.toString()); 
+        } else {
+             return numberOutput.toString(); 
+        }
+    } else {
+        if (number < 0) {
+            return ("-" + (zero.repeat(width - length)) + numberOutput.toString()); 
+        } else {
+            return ((zero.repeat(width - length)) + numberOutput.toString()); 
+        }
+    }
+}
 </script>
+
+
+<script>
+
+function calcularTarifaServidor(){
+    var datos = {
+            "fechaLLegada": $('#entradaFecha').val(),
+            "servicio":$("#idTarifa").val(),
+            "_token":$('input[name="_token"]').val()
+    }
+    $.ajax({
+        url: '/entradas/calcularTarifa',
+        type: 'post',
+        dataType: 'json',
+        data: datos,
+        success: function (resultado) {
+            //console.log(resultado[0]);
+            let body = resultado[0].body[0];
+            $('#resta').html(body.mes + "Mes " + body.dia + "Dia " + body.hora + "hora " + body.min + "min ");
+            $('#total').text(numeral(body.pago).format('$0,0'));
+            $('#subtotal').val(body.pago);
+            $('#valor').val(body.pago);
+            $('#valorDescuento').val(0);
+            $('#iva').val(0);
+            $('#retencion').val(0);
+        }
+    });
+}
+
+
+function registrar(){
+    var datos = {
+        "idParqueadero" : $('#idParqueadero').val(),
+        "idCliente"     : $('#idCliente').val(),
+        "idTarifa"      : $('#idTarifa').val(),
+        "idUsuario"     : $('#idUsuario').val(),
+        "placa"         : $('#placa').val(),
+        "descripcion"   : ($('#descripcion').val() == "") ? "NA" : $('#descripcion').val(),
+        "nota"          : ($('#nota').val() == "") ? "NA" : $('#nota').val(),
+        "entradaFecha"  : $('#entradaFecha').val(),
+        "reciboPrefijo" : $('#reciboPrefijo').val(),
+        "reciboNumero"  : $('#reciboNumero').val(),
+        "salidaFecha"   : $('#salidaFecha').val(),
+        "codigoBarras"  : $('#codigoBarras').val(),
+        "registrar"     : "registrar",
+        "_token":$('input[name="_token"]').val()
+    }
+    console.log(datos);
+    $.ajax({
+        url: '/entradas/create',
+        type: 'post',
+        dataType: 'json',
+        data: datos,
+        success: function (resultado) {
+            console.log(resultado[0]);
+            $('#impplaca').text(resultado[0].body.placa);
+            date = new Date(resultado[0].body.entradaFecha);
+            $('#impentrada').text(date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear() + " Hora: " + date.getHours() + ":" + date.getMinutes() );
+            $('#imprecibo').text(resultado[0].body.reciboNumero);
+            $('#imprimir').trigger('click');
+        }
+    });
+}
+
+</script>
+
+<script language="JavaScript"> 
+function mueveReloj(){ 
+   	momentoActual = new Date();
+   	hora = momentoActual.getHours();
+   	minuto = momentoActual.getMinutes();
+   	segundo = momentoActual.getSeconds();
+
+   	horaImprimible = " Hora: "+ hora + " : " + minuto + " : " + segundo;
+
+   	document.getElementById("salidaFecha").innerHTML = horaImprimible ;
+
+   	setTimeout("mueveReloj()",1000);
+    calcularTarifaServidor();
+} 
+</script> 
+
 </body>
 
 </html>

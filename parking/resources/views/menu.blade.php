@@ -33,7 +33,7 @@
         <li class="nav-item " id="pagos">
         <a class="nav-link" href="pagos">
             <i class="material-icons">notifications</i>
-            <p>Pagos</p>
+            <p>Cierre Caja</p>
         </a>
         </li>
         <li class="nav-item " id="configuracion">

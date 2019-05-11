@@ -107,6 +107,7 @@ class ParqueaderosController extends Controller
             $obj = Entradas::where('placa','=',$request->placa)->where("salidaFecha","=",NULL)->first();
             if(sizeof($obj) != 0 ){ //actualizar
                 ParqueaderosController::ObjEntradas($obj,$request);
+                
                 $obj->save();
             }
             else { //crear
@@ -119,16 +120,24 @@ class ParqueaderosController extends Controller
                     $request->reciboNumero = "0";
                 }
                 ParqueaderosController::ObjEntradas($obj,$request);
+                $obj->entradaFecha = date("d-m-Y H:i:s");
+                $obj->salidaFecha = null;
                 $obj->save();
             }
-            return redirect("/imprimir2/".$obj->id);
+            $parqueaderos = Parqueaderos::where('id','>','0')->first();
+            return array([
+                "result"=>"true",
+                "body"=>$obj,
+                "parqueaderos"=>$parqueaderos
+            ]);
         }
         else if($request->pagar == "pagar"){
             $obj = new Pagos();
             ParqueaderosController::ObjPagos($obj,$request);
             $obj->save();
             $obj_1 = Entradas::where('placa','=',$request->placa)->where("salidaFecha","=",NULL)->first();
-            ParqueaderosController::ObjEntradas($obj_1,$request);
+            //ParqueaderosController::ObjEntradas($obj_1,$request);
+            $obj_1->salidaFecha = date("d-m-Y H:i:s");
             $obj_1->save();
             return redirect("/imprimir/".$obj->id);
         }
@@ -185,11 +194,11 @@ class ParqueaderosController extends Controller
         $obj->descripcion   = $request->descripcion;
         $obj->nota          = $request->nota;
         $obj->entradaFecha  = $request->entradaFecha;
-        $obj->entradaHora   = $request->entradaHora;
+        $obj->entradaHora   = "0";
         $obj->reciboPrefijo = $request->reciboPrefijo;
         $obj->reciboNumero  = $request->reciboNumero;
         $obj->salidaFecha   = ($request->salidaFecha == $request->entradaFecha) ? NULL : $request->salidaFecha;
-        $obj->salidaHora    = $request->salidaHora;
+        $obj->salidaHora    = "0";
         $obj->codigoBarras  = $request->codigoBarras;
         return $obj;
     }
