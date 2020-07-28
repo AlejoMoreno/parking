@@ -18,7 +18,7 @@ $fechaSa = $fechaSalida[0] . "-" . $fechaSalida[1] . "-" . explode(" ",$fechaSal
 echo $fechaEn;
 ?>
 
-<a href="/entradas"><div style="background: rgba(73,155,234,1);border-radius: 0px 0px 57px 57px;
+<a href="/parking/public/entradas"><div style="background: rgba(73,155,234,1);border-radius: 0px 0px 57px 57px;
 	-moz-border-radius: 0px 0px 57px 57px;
 	-webkit-border-radius: 0px 0px 57px 57px;
 	border: 0px solid #000000;width: 100px;text-aling:center;position:absolute;color:white;z-index:1000;"><center><strong>Regresar</strong></center></div></a>
@@ -27,15 +27,15 @@ echo $fechaEn;
 <div id="imprimir_recibo">
 
 <div style="">
-	----------------------------------------------------<br>
+	-------------------------------<br>
 	<strong>{{ $parqueaderos->razon_social }}</strong><br>
 	<strong>NIT.</strong> {{ $parqueaderos->nit }}<br>
 	<strong>TEL.</strong> {{ $parqueaderos->telefonos }}<br>
 	<strong>DIR.</strong> {{ $parqueaderos->direccion1 }}<br>
-	-----------------------------------------------------
+	--------------------------------
 	<br><br>
 </div>
-<strong>{{ $pagos[0]->idEntrada[0]->created_at }}</strong><br><br>
+<strong>Fecha Imp. <?php echo date('Y/m/d'); ?></strong><br><br>
 <strong>Recibo: </strong>{{ $pagos[0]->idEntrada[0]->reciboNumero }}<br>
 <strong>Placa: </strong>{{ $pagos[0]->idEntrada[0]->placa }}<br><br>
 
@@ -46,9 +46,9 @@ echo $fechaEn;
 <br><br>
 <strong>Total</strong><br><?php echo number_format($pagos[0]->valor); ?><br><br>
 
------------------------------------------------<br>
+--------------------------------<br>
 Parkapp <br>
-Desarrollado por Interconsis - Wakusoft <br>
+Desarrollado por Interconsis <br> - Wakusoft <br>
 NIT. 1030570356 <br>
 -----------------------------------------------
 
@@ -70,6 +70,6 @@ NIT. 1030570356 <br>
 			  
 				  newWin.document.close();
 			  
-				  setTimeout(function(){window.location.href ="/entradas";newWin.close();},10);
+				  setTimeout(function(){window.location.href ="/parking/public/entradas";newWin.close();},10);
 				}
 				</script>

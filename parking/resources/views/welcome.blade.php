@@ -3,8 +3,8 @@
 
 <head>
   <meta charset="utf-8" />
-  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/parking/public/assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="/parking/public/assets/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
     Parkapp
@@ -14,9 +14,9 @@
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!-- CSS Files -->
-  <link href="../assets/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
+  <link href="/parking/public/assets/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don include it in your project -->
-  <link href="../assets/demo/demo.css" rel="stylesheet" />
+  <link href="/parking/public/assets/demo/demo.css" rel="stylesheet" />
 </head>
 
 <body style="background-image: url(https://actualicese.com/_ig/img/fotos/parqueaderocarros.jpg);background-size: cover;">
@@ -44,7 +44,7 @@
                   </div>
                 @endif 
                 <div class="card-body">
-                    <form class="row" action="/usuarios/loguin"  method="POST">
+                    <form class="row" action="/parking/public/usuarios/loguin"  method="POST">
                       {{ csrf_field() }}
                         <div class="col-lg-12"><br>
                             <input type="text" id="usuario" name="usuario" class="form-control" placeholder="Usuario">

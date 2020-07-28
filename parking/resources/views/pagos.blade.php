@@ -53,6 +53,8 @@ if(isset($_GET['generar']) && $_GET['fechaInicio'] != "" && $_GET['fechaFinal'] 
                 <br><br>
             </div>
             <div style="">
+                
+                ________________________________________________ <br>
             <?php 
             if(isset($_GET['generar'])){ $total_t = 0;  ?>
                 @foreach($pagos_imprimir as $pagoimp)
@@ -68,8 +70,9 @@ if(isset($_GET['generar']) && $_GET['fechaInicio'] != "" && $_GET['fechaFinal'] 
             <?php  }
             
             ?>
-                <hr>
-                <strong>Total Cierre: {{ $total_t }}</strong>
+            <br>________________________________________________ <br>
+                <strong>Total Cierre: {{ $total_t }}</strong><br>
+                ________________________________________________ <br>
             </div>
           </div>
         </div>
@@ -159,7 +162,7 @@ if(isset($_GET['generar']) && $_GET['fechaInicio'] != "" && $_GET['fechaFinal'] 
 
     newWin.document.close();
 
-    setTimeout(function(){window.location.href = "/pagos"; newWin.close();},10);
+    setTimeout(function(){window.location.href = "/parking/public/pagos"; newWin.close();},10);
 
     
 

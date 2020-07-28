@@ -133,9 +133,18 @@ class ParqueaderosController extends Controller
         }
         else if($request->pagar == "pagar"){
             $obj = new Pagos();
-            ParqueaderosController::ObjPagos($obj,$request);
+            $obj = ParqueaderosController::ObjPagos($obj,$request);
+            if($request->plena != ''){ //plena
+                $tarifa = Tarifas::where('id','=',$request->idTarifa)->first();
+                $obj->valor = $tarifa->quincena;
+            }
+            else if($request->mensualidad != ''){ //mensual
+                $tarifa = Tarifas::where('id','=',$request->idTarifa)->first();
+                $obj->valor = $tarifa->mensualidad;
+            }
             $obj->save();
             $obj_1 = Entradas::where('placa','=',$request->placa)->where("salidaFecha","=",NULL)->first();
+            //dd($obj_1);
             //ParqueaderosController::ObjEntradas($obj_1,$request);
             $obj_1->salidaFecha = date("d-m-Y H:i:s");
             $obj_1->save();

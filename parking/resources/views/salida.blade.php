@@ -7,10 +7,10 @@ Session::put('nombres', "");
 Session::put('email', "");
 
 
-header("Location: /");
+header("Location: /parking/public/");
 
 ?>
 
 <script>
-window.location.href = "/";
+window.location.href = "/parking/public/";
 </script>

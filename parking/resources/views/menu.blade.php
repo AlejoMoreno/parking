@@ -1,7 +1,43 @@
+@if(Session::get('idTipoUsuario')=='2')
+
 <div class="sidebar-wrapper">
     <ul class="nav">
         <li class="nav-item  " id="index">
-        <a class="nav-link" href="/index">
+        <a class="nav-link" href="/parking/public/index">
+            <i class="material-icons">dashboard</i>
+            <p>Censo de vehiculos</p>
+        </a>
+        </li>
+        <li class="nav-item " id="clientes">
+        <a class="nav-link" href="clientes">
+            <i class="material-icons">library_books</i>
+            <p>Clientes</p>
+        </a>
+        </li>
+        <li class="nav-item " id="entradas">
+        <a class="nav-link" href="entradas">
+            <i class="material-icons">location_ons</i>
+            <p>Entradas</p>
+        </a>
+        </li>
+        <li class="nav-item active-pro ">
+        <a class="nav-link" href="salida">
+            <i class="material-icons">unarchive</i>
+            <p>Salir</p>
+        </a>
+        </li>
+    </ul>
+</div>
+
+
+@endif
+
+@if(Session::get('idTipoUsuario')==1)
+
+<div class="sidebar-wrapper">
+    <ul class="nav">
+        <li class="nav-item  " id="index">
+        <a class="nav-link" href="/parking/public/index">
             <i class="material-icons">dashboard</i>
             <p>Censo de vehiculos</p>
         </a>
@@ -51,10 +87,14 @@
     </ul>
 </div>
 
+
+@endif
+
 <script>
     let menu = ["usuario","index","servicios","clientes","entradas","pagos","configuracion"];
+    console.log(window.location.pathname.split('/')[3]);
     for(let i = 0; menu.length > i; i++){
-        if(menu[i] == window.location.pathname.split('/')[1]){
+        if(menu[i] == window.location.pathname.split('/')[3]){
             document.getElementById(menu[i]).classList.add("active");
         }
     }

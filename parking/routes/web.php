@@ -9,8 +9,6 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-
-cambio ......
 */
 
 Route::get('/', function () {
@@ -115,7 +113,7 @@ Route::get('/clientes', function(){
 });
 
 Route::get('/pagos', function(){
-    $pagos = App\Pagos::all();
+    $pagos = App\Pagos::where('id','>',0)->orderBy('id','desc')->take(100)->get();
     foreach($pagos as $obj){
         $obj->idEntrada = App\Entradas::where('id','=',$obj->idEntrada)->get();
     }
