@@ -10,7 +10,7 @@
                 <p class="card-category">Formulario para actualizar clientes</p>
             </div>
             <div class="card-body">
-                <form class="row" action="/parking/public/clientes/create"  method="POST">
+                <form class="row" action="/clientes/create"  method="POST">
                     {{ csrf_field() }}
                     <div><input type="hidden" id="id" name="id" placeholder="id" class="col-md-10 form-control"></div>
                     <label class="col-md-2 ">cedula</label><div class="col-md-4"><input id="cedula" name="cedula" class="col-md-10 form-control" ></div>
@@ -41,7 +41,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                <table class="table">
+                <table class="table" id="table">
                     <thead class=" text-primary">
                     <tr>
                         <th>Cedula</th>
@@ -70,4 +70,9 @@
             </div>
         </div>
 
+        <script>
+            $(document).ready( function () {
+                $('#table').DataTable();
+            } );
+        </script>
 @endsection()

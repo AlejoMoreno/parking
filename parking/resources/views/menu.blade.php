@@ -3,7 +3,7 @@
 <div class="sidebar-wrapper">
     <ul class="nav">
         <li class="nav-item  " id="index">
-        <a class="nav-link" href="/parking/public/index">
+        <a class="nav-link" href="/index">
             <i class="material-icons">dashboard</i>
             <p>Censo de vehiculos</p>
         </a>
@@ -37,7 +37,7 @@
 <div class="sidebar-wrapper">
     <ul class="nav">
         <li class="nav-item  " id="index">
-        <a class="nav-link" href="/parking/public/index">
+        <a class="nav-link" href="/index">
             <i class="material-icons">dashboard</i>
             <p>Censo de vehiculos</p>
         </a>

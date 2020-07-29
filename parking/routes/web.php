@@ -16,7 +16,13 @@ Route::get('/', function () {
 });
 
 Route::get('/index', function(){
-    return view('index');
+    $datos = DB::select('SELECT T.idTipoVehiculo, count(*) as contador FROM entradas E, tarifas T where E.idTarifa = T.id and E.salidaFecha is null group by T.idTipoVehiculo');
+    foreach($datos as $obj){
+            $obj->idTipoVehiculo = App\TipoVehiculos::where('id','=',$obj->idTipoVehiculo)->get();
+    }
+    return view('index',[
+        'datos'=>$datos
+    ]);
 });
 
 Route::get('/salida', function(){

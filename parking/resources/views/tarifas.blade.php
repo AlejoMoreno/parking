@@ -10,7 +10,7 @@
                 <p class="card-category">Formulario para actualizar servicios</p>
             </div>
             <div class="card-body">
-                <form class="row" action="/parking/public/tarifas/create"  method="POST">
+                <form class="row" action="/tarifas/create"  method="POST">
                     {{ csrf_field() }}
                     <div><input type="hidden" id="id" name="id" placeholder="id" class="col-md-10 form-control"></div>
                     <div><input type="hidden" id="idParqueadero" name="idParqueadero" class="col-md-10 form-control" value="{{ $parqueaderos->id }}"></div>
@@ -53,7 +53,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                <table class="table">
+                <table class="table" id="table">
                     <thead class=" text-primary">
                     <tr>
                         <th>Tipo Vehiculo</th>
@@ -88,4 +88,10 @@
             </div>
         </div>
 
+        <script>
+            $(document).ready( function () {
+                $('#table').DataTable();
+            } );
+        </script>
+        
 @endsection()

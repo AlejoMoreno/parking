@@ -2,14 +2,6 @@
 
 @section('content')
 
-<?php 
-
-$datos = DB::select('SELECT T.idTipoVehiculo, count(*) as contador FROM parkapp.Entradas E, parkapp.Tarifas T where E.idTarifa = T.id and E.salidaFecha is null group by T.idTipoVehiculo');
-foreach($datos as $obj){
-        $obj->idTipoVehiculo = App\TipoVehiculos::where('id','=',$obj->idTipoVehiculo)->get();
-}
-?>
-
 <div class="row">
     <div class="col-md-12">
         <div class="card">
@@ -19,7 +11,7 @@ foreach($datos as $obj){
         </div>
         <div class="card-body">
             <div class="table-responsive">
-            <table class="table">
+            <table class="table" id="table">
                 <thead class=" text-primary">
                 <tr>
                     <th>Tipo Vehiculo</th>
@@ -39,5 +31,11 @@ foreach($datos as $obj){
         </div>
         </div>
     </div>
+
+    <script>
+        $(document).ready( function () {
+            $('#table').DataTable();
+        } );
+    </script>
 
 @endsection()

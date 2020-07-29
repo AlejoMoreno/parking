@@ -111,7 +111,7 @@ if(isset($_GET['generar']) && $_GET['fechaInicio'] != "" && $_GET['fechaFinal'] 
         </div>
         <div class="card-body">
             <div class="table-responsive">
-            <table class="table">
+            <table class="table" id="table">
                 <thead class=" text-primary">
                 <tr>
                     <th>Parqueadero</th>
@@ -150,6 +150,13 @@ if(isset($_GET['generar']) && $_GET['fechaInicio'] != "" && $_GET['fechaFinal'] 
 </div>
 
 <script>
+    $(document).ready( function () {
+        $('#table').DataTable();
+    } );
+</script>
+
+<script>
+
   
   function imprimir(){
     var divToPrint=document.getElementById('imprimir_recibo');
@@ -162,7 +169,7 @@ if(isset($_GET['generar']) && $_GET['fechaInicio'] != "" && $_GET['fechaFinal'] 
 
     newWin.document.close();
 
-    setTimeout(function(){window.location.href = "/parking/public/pagos"; newWin.close();},10);
+    setTimeout(function(){window.location.href = "/pagos"; newWin.close();},10);
 
     
 

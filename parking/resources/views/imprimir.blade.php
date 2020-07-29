@@ -18,7 +18,7 @@ $fechaSa = $fechaSalida[0] . "-" . $fechaSalida[1] . "-" . explode(" ",$fechaSal
 echo $fechaEn;
 ?>
 
-<a href="/parking/public/entradas"><div style="background: rgba(73,155,234,1);border-radius: 0px 0px 57px 57px;
+<a href="/entradas"><div style="background: rgba(73,155,234,1);border-radius: 0px 0px 57px 57px;
 	-moz-border-radius: 0px 0px 57px 57px;
 	-webkit-border-radius: 0px 0px 57px 57px;
 	border: 0px solid #000000;width: 100px;text-aling:center;position:absolute;color:white;z-index:1000;"><center><strong>Regresar</strong></center></div></a>
@@ -70,6 +70,6 @@ NIT. 1030570356 <br>
 			  
 				  newWin.document.close();
 			  
-				  setTimeout(function(){window.location.href ="/parking/public/entradas";newWin.close();},10);
+				  setTimeout(function(){window.location.href ="/entradas";newWin.close();},10);
 				}
 				</script>

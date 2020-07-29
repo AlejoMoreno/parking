@@ -10,7 +10,7 @@
                 <p class="card-category">Formulario para configuración</p>
             </div>
             <div class="card-body">
-                <form class="row" action="/parking/public/parqueaderos/create"  method="POST">
+                <form class="row" action="/parqueaderos/create"  method="POST">
                     {{ csrf_field() }}
                 <label class="col-md-2 ">Nit</label><div class="col-md-10"><input type="text" id="nit" name="nit" placeholder="(sin el número de verificación)" class="col-md-10 form-control" autocomplete=off list="nits" value="{{ $parqueaderos->nit }}"><datalist id="nits">
                           </datalist></div>
@@ -41,7 +41,7 @@
                 <p class="card-category">Formulario para configuración</p>
             </div>
             <div class="card-body">
-                <form class="row" action="/parking/public/tipoPago/create"  method="POST">
+                <form class="row" action="/tipoPago/create"  method="POST">
                     {{ csrf_field() }}
                     <label class="col-md-2 ">Tipo Pago</label>
                     <div class="col-md-10">
@@ -66,7 +66,7 @@
                 <p class="card-category">Formulario para configuración</p>
             </div>
             <div class="card-body">
-                <form class="row" action="/parking/public/tipoVehiculo/create"  method="POST">
+                <form class="row" action="/tipoVehiculo/create"  method="POST">
                     {{ csrf_field() }}
                     <label class="col-md-2 ">Tipo Vehiculo</label>
                     <div class="col-md-4">
@@ -94,7 +94,7 @@
                     <p class="card-category">Formulario para configuración</p>
                 </div>
                 <div class="card-body">
-                    <form class="row" action="/parking/public/tipoUsuarios/create"  method="POST">
+                    <form class="row" action="/tipoUsuarios/create"  method="POST">
                         {{ csrf_field() }}
                         <label class="col-md-2 ">Tipo Usuarios</label>
                         <div class="col-md-10">

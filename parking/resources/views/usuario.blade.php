@@ -10,7 +10,7 @@
                 <p class="card-category">Formulario para actualizar usuarios</p>
             </div>
             <div class="card-body">
-                <form class="row" action="/parking/public/usuarios/create"  method="POST">
+                <form class="row" action="/usuarios/create"  method="POST">
                     {{ csrf_field() }}
                     <div><input type="hidden" id="id" name="id" placeholder="id" class="col-md-10 form-control"></div>
                     <div><input type="hidden" id="idParqueadero" name="idParqueadero" value="{{ $parqueaderos->id }}" class="col-md-10 form-control"></div>
@@ -43,7 +43,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                <table class="table">
+                <table class="table" id="table">
                     <thead class=" text-primary">
                     <tr>
                         <th>Usuario</th>
@@ -75,5 +75,9 @@
             </div>
             </div>
         </div>
-
+        <script>
+            $(document).ready( function () {
+                $('#table').DataTable();
+            } );
+        </script>
 @endsection()
