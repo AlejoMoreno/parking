@@ -16,6 +16,8 @@ use App\Tarifas;
 use App\Entradas;
 use App\Pagos;
 
+use Session;
+
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;

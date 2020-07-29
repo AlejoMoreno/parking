@@ -9,6 +9,8 @@ use App\Tarifas;
 use App\Entradas;
 use App\Pagos;
 
+use Session;
+
 class ParqueaderosController extends Controller
 {
     /**
@@ -35,7 +37,7 @@ class ParqueaderosController extends Controller
             ParqueaderosController::ObjParqueaderos($obj,$request);
             $obj->save();
         }
-        return redirect('/configuracion');
+        return redirect('registroUsuario/'.$obj->id);
     }
     public function createTipoPago(Request $request){
         $obj = TipoPagos::where('nombre','=',$request->nombre)->first();
@@ -181,7 +183,7 @@ class ParqueaderosController extends Controller
         return $obj;
     }
     static function ObjTarifas(Tarifas $obj, Request $request){
-        $obj->idParqueadero     = $request->idParqueadero;
+        $obj->idParqueadero     = Session::get('id_parqueadero');
         $obj->idTipoVehiculo    = $request->idTipoVehiculo;
         $obj->nombreTarifa      = $request->nombreTarifa;
         $obj->valorHora         = $request->valorHora;
@@ -195,7 +197,7 @@ class ParqueaderosController extends Controller
     }
 
     static function ObjEntradas(Entradas $obj, Request $request){
-        $obj->idParqueadero = $request->idParqueadero;
+        $obj->idParqueadero = Session::get('id_parqueadero');
         $obj->idCliente     = $request->idCliente;
         $obj->idTarifa      = $request->idTarifa;
         $obj->idUsuario     = $request->idUsuario;
@@ -213,7 +215,7 @@ class ParqueaderosController extends Controller
     }
 
     static function ObjPagos(Pagos $obj, Request $request){
-        $obj->idParqueadero = $request->idParqueadero;
+        $obj->idParqueadero = Session::get('id_parqueadero');
         $obj->idEntrada     = $request->idEntrada;
         $obj->idUsuario     = $request->idUsuario;
         $obj->idTipoPago    = $request->idTipoPago;

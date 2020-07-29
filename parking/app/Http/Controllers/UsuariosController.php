@@ -25,6 +25,34 @@ class UsuariosController extends Controller
         return redirect('/clientes');
     }
 
+    public function createUsuarios2(Request $request){
+        $usuario = new Usuarios();
+        $usuario->idParqueadero = $request->idParqueadero;
+        $usuario->idTipoUsuario = $request->idTipoUsuario;
+        $usuario->usuario       = $request->usuario;
+        $usuario->nombres       = $request->nombres;
+        $usuario->apellidos     = $request->apellidos;
+        $usuario->direccion     = $request->direccion;
+        $usuario->telefono      = $request->telefono;
+        $usuario->contrasena    = $request->contrasena;
+        $usuario->email         = $request->email;
+        $usuario->save();
+        $obj = Usuarios::where('contrasena','=',$request->contrasena)->where('usuario','=',$request->usuario)->first();
+        if(sizeof($obj) != 0 ){ //si esta el usuario
+            Session::put('id', $obj->id);
+            Session::put('idTipoUsuario', $obj->idTipoUsuario);
+            Session::put('usuario', $obj->usuario);
+            Session::put('nombres', $obj->nombres." ".$obj->apellidos);
+            Session::put('email', $obj->email);
+            Session::put('id_parqueadero', $obj->idParqueadero);
+            return redirect('/index');
+        }
+        else{ //no esta el usuario
+            return redirect('/')->with('message', 'ERROR DE SESION, ALGUN DATO SE ENCUENTRA ERRADO'); ;
+        }
+        return redirect('/clientes');
+    }
+
     public function createUsuarios(Request $request){
         $obj = Usuarios::where('email','=',$request->email)->where('usuario','=',$request->usuario)->first();
         if(sizeof($obj) != 0 ){ //actualizar
@@ -47,6 +75,7 @@ class UsuariosController extends Controller
             Session::put('usuario', $obj->usuario);
             Session::put('nombres', $obj->nombres." ".$obj->apellidos);
             Session::put('email', $obj->email);
+            Session::put('id_parqueadero', $obj->idParqueadero);
             return redirect('/index');
         }
         else{ //no esta el usuario
@@ -65,7 +94,7 @@ class UsuariosController extends Controller
     }
 
     static function ObjUsuarios(Usuarios $obj, Request $request){
-        $obj->idParqueadero = $request->idParqueadero;
+        $obj->idParqueadero = Session::get('id_parqueadero');
         $obj->idTipoUsuario = $request->idTipoUsuario;
         $obj->usuario       = $request->usuario;
         $obj->nombres       = $request->nombres;

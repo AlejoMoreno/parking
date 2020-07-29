@@ -8,15 +8,15 @@ $fechaInicio = "";
 $fechaFinal = "";
 $total_t = 0;
 if(isset($_GET['generar']) && $_GET['fechaInicio'] != "" && $_GET['fechaFinal'] != ""){
-    $update = DB::update("UPDATE PAGOS SET valorDescuento = '1', updated_at = '".date('Y-m-d H:i:s')."' WHERE created_at BETWEEN '".$_GET['fechaInicio']."' AND '".$_GET['fechaFinal']."' and valorDescuento = 0 ");
-    $pagos = DB::select("SELECT * FROM PAGOS WHERE created_at BETWEEN '".$_GET['fechaInicio']."' AND '".$_GET['fechaFinal']."' ");
-    $pagos_imprimir = DB::select("SELECT * FROM PAGOS WHERE created_at BETWEEN '".$_GET['fechaInicio']."' AND '".$_GET['fechaFinal']."' and valorDescuento = 1");
+    $update = DB::update("UPDATE pagos SET valorDescuento = '1', updated_at = '".date('Y-m-d H:i:s')."' WHERE created_at BETWEEN '".$_GET['fechaInicio']."' AND '".$_GET['fechaFinal']."' and valorDescuento = 0 ");
+    $pagos = DB::select("SELECT * FROM pagos WHERE created_at BETWEEN '".$_GET['fechaInicio']."' AND '".$_GET['fechaFinal']."' ");
+    $pagos_imprimir = DB::select("SELECT * FROM pagos WHERE created_at BETWEEN '".$_GET['fechaInicio']."' AND '".$_GET['fechaFinal']."' and valorDescuento = 1");
     
     foreach($pagos_imprimir as $obj){
         $obj->idEntrada = App\Entradas::where('id','=',$obj->idEntrada)->get();
     }
     foreach($pagos as $obj){
-        $obj->idEntrada = App\Entradas::where('id','=',$obj->idEntrada)->get();
+        $obj->idEntrada = App\Entradas::where('id','=',$obj->idEntrada)->first();
     }
     
     echo "<script>$( '#imprimir' ).trigger( 'click' );</script>";
@@ -130,7 +130,7 @@ if(isset($_GET['generar']) && $_GET['fechaInicio'] != "" && $_GET['fechaFinal'] 
                     @foreach ($pagos as $obj)
                     <tr>
                         <td>{{ $obj->idParqueadero }}</td>
-                        <td>{{ $obj->idEntrada[0]->reciboNumero }}</td>
+                        <td>{{ $obj->idEntrada->reciboNumero }}</td>
                         <td>{{ $obj->idUsuario }}</td>
                         <td>{{ $obj->idTipoPago }}</td>
                         <td>{{ $obj->subtotal }}</td>

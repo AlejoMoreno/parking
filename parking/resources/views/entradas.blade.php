@@ -3,22 +3,74 @@
 
 <head>
   <meta charset="utf-8" />
-  <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png">
-  <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+  <link rel="icon" type="image/png" href="/assets/img/logo.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title>
-    ParkApp
-  </title>
-  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-  <!--     Fonts and icons     -->
-  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
-  <!-- CSS Files -->
-  <link href="/assets/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
-  <!-- CSS Just for demo purpose, dont include it in your project -->
-  <link href="/assets/demo/demo.css" rel="stylesheet" />
+  <!-- Primary Meta Tags -->
+  <title>WParkapp / Administra tu parqueadero</title>
+  <meta name="title" content="WParkapp / Administra tu parqueadero">
+  <meta name="description" content="Parkapp es una de las mejores soluciones para el mercado de parqueaderos. Contamos con una app totalmente gratuita y un servicio online a bajo costo.">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://metatags.io/">
+  <meta property="og:title" content="WParkapp / Administra tu parqueadero">
+  <meta property="og:description" content="Parkapp es una de las mejores soluciones para el mercado de parqueaderos. Contamos con una app totalmente gratuita y un servicio online a bajo costo.">
+  <meta property="og:image" content="https://metatags.io/assets/meta-tags-16a33a6a8531e519cc0936fbba0ad904e52d35f34a46c97a2c9f6f7dd7d336f2.png">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://metatags.io/">
+  <meta property="twitter:title" content="WParkapp / Administra tu parqueadero">
+  <meta property="twitter:description" content="Parkapp es una de las mejores soluciones para el mercado de parqueaderos. Contamos con una app totalmente gratuita y un servicio online a bajo costo.">
+  <meta property="twitter:image" content="https://metatags.io/assets/meta-tags-16a33a6a8531e519cc0936fbba0ad904e52d35f34a46c97a2c9f6f7dd7d336f2.png">
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+    <!--     Fonts and icons     -->
+     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"> 
+    <!-- CSS Files -->
+     <link href="/assets/css/material-dashboard.css" rel="stylesheet" />
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link href="/assets/demo/demo.css" rel="stylesheet" /> 
+  
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
   <script src="http://momentjs.com/downloads/moment.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+
+  <style>
+      .card .card-header-primary .card-icon, .card .card-header-primary .card-text, .card .card-header-primary:not(.card-header-icon):not(.card-header-text), .card.bg-primary, .card.card-rotate.bg-primary .front, .card.card-rotate.bg-primary .back {
+    background: linear-gradient(60deg, #4caf50, #77b300);
+}
+.card .card-header-primary:not(.card-header-icon):not(.card-header-text), .card .card-header-primary .card-text {
+    box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px #4caf50;
+}
+select[name="table_length"], input[type="search"] {
+      background: #282828;
+      border: 1px solid #282828;
+      color: white;
+    }
+    input[type="search"]{
+      border-bottom: 1px solid white;
+    }
+    table.dataTable tbody tr {
+        background-color: #282828;
+        color: white;
+    }
+    .text-primary{
+      color:#4caf50 !important;
+    }
+    .form-control, .form-control:focus, .form-control:hover{
+      background: #282828;
+      border: 1px solid #282828;
+      border-bottom: 1px solid white;
+      color: white;
+    }
+    input[type="placa"]{
+        background: #282828;
+        border: 1px solid #282828;
+        border-bottom: 1px solid white;
+        color: white;
+    }
+  </style>
   
 </head>
 

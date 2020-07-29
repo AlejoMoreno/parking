@@ -187,6 +187,23 @@
   background: white;
   opacity: 0.8;
 }
+
+
+.backAnim{
+  color: #2f2f2f;
+display:block;
+text-align:center;
+background:#fceabb;
+-webkit-transition:background 1s ease-out;
+-moz-transition:background 1s ease-out;
+-o-transition:background 1s ease-out;
+-ms-transition:background 1s ease-out;
+transition:background 1s ease-out;
+}
+.backAnim:hover{
+background:#474747;
+color:white;
+}
   </style>
 
 </head>
@@ -200,7 +217,7 @@
 
 
 
-  <div class="content">
+  <div class="content" style="padding-bottom: 10%;">
     <div class="container-fluid">
       <div class="row">
         <div class="col-lg-9 col-md-9 col-sm-9">
@@ -255,7 +272,7 @@
             </div>
             <div class="card-footer">
               <div class="stats">
-                <a href="#pablo">Olvido Contraseña</a>
+                <a href="/registro">Solicita 1 mes gratis</a>
               </div>
             </div>
           </div>
@@ -263,33 +280,311 @@
       </div>
     </div>
   </div>
+
+  <div class="content" style="background: white;padding-top:10%;padding-bottom:10%;">
+    <div class="container-fluid">
+      <center><h1 style="color: #060606">Precios y planes</h1></center><br><br>
+      <div class="row">
+        <div class="col-md-2">
+          <br>
+        </div>
+        <div class="col-md-3">
+          <div class="card card-stats">
+            <div class="card-header">
+              <div class="card-icon" style="text-align: center;color:white;">
+                <h3>Gratis</h3>
+                <h6>Un mes gratis</h6>
+                <h3>$ 0 <small><br>COP</small></h3>
+                <h6><br></h6>
+              </div>
+            </div>
+            <div class="card-body">
+              <p>El plan incluye: </p>
+              <ul>
+                <li>1 Parqueadero</li>
+                <li>1 Usuario</li>
+                <li>Tarifarios ilimitados</li>
+                <li>Entradas ilimitados</li>
+                <li>Salidas ilimitados<br></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card card-stats">
+            <div class="card-header" >
+              <div class="card-icon" style="text-align: center;color:white;">
+                <h3>Premium</h3>
+                <h6>Pago anual</h6>
+                <h3>$ 100.000 <small><br>COP</small></h3>
+                <h6>Mes $ 10.000 COP</h6>
+              </div>
+            </div>
+            <div class="card-body">
+              <p>El plan incluye: </p>
+              <ul>
+                <li>Parqueadero ilimitados</li>
+                <li>Usuario ilimitados</li>
+                <li>Tarifarios ilimitados</li>
+                <li>Entradas ilimitados</li>
+                <li>Salidas ilimitados<br></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card card-stats backAnim" >
+            <div class="card-header">
+              <div class="card-icon" style="text-align: center;color:white;">
+                <h3>Vitalicio</h3>
+                <h6>De por vida </h6>
+                <h3>$ 800.000 <small><br>COP</small></h3>
+              </div>
+            </div>
+            <div class="card-body" style="text-align: left;">
+              <p>Para este plan se requiere que el establecimiento tenga un PC, en el cual instalar el aplicativo. El plan incluye: </p>
+              <ul>
+                <li>Licencia de uso / 6 meses garantia</li>
+                <li>Instalación</li>
+                <li>Base de Datos</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        
+    </div>
+  </div> 
       
 
 
-  <footer class="footer" style="position: fixed;
+  <div class="content" style="background: black;margin-top:10%;padding-bottom:10%;padding-top:10%;">
+    <div class="container-fluid">
+      <center><h1 style="color: white;">Parkapp</h1></center><br><br>
+      <div class="row">
+        <div class="col-md-7">
+          <div class="card card-stats" >
+            <div class="card-header">
+              <div class="card-icon" style="text-align: center;color:white;">
+                <img style="width: 100%;" src="/assets/img/1.png" alt="" srcset="">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="card card-stats" style="margin-top:35%;">
+            <div class="card-header">
+              <div class="card-icon" style="text-align: center;color:white;">
+                <h4>Censo de vehiculos</h4>
+                <p>En este apartado podrás ver en tiempo real cuantos y cuales vehiculos se encuentran 
+                  dentro del parqueadero.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-5">
+          <div class="card card-stats" style="margin-top:35%;">
+            <div class="card-header">
+              <div class="card-icon" style="text-align: center;color:white;">
+                <h4>Perfil</h4>
+                <p>Podrás agregar cuantos usuarios necesites para el parqueadero, con los roles de 
+                  administracion y empleado.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-7">
+          <div class="card card-stats" >
+            <div class="card-header">
+              <div class="card-icon" style="text-align: center;color:white;">
+                <img style="width: 100%;" src="/assets/img/2.png" alt="" srcset="">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-7">
+          <div class="card card-stats" >
+            <div class="card-header">
+              <div class="card-icon" style="text-align: center;color:white;">
+                <img style="width: 100%;" src="/assets/img/3.png" alt="" srcset="">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="card card-stats" style="margin-top:35%;">
+            <div class="card-header">
+              <div class="card-icon" style="text-align: center;color:white;">
+                <h4>Clientes</h4>
+                <p>Cuenta con la posibiidad de crear un cliente recurrente, con el fin de 
+                  al momento de imprimir la tirilla salga con los datos del cliente.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-5">
+          <div class="card card-stats" style="margin-top:35%;">
+            <div class="card-header">
+              <div class="card-icon" style="text-align: center;color:white;">
+                <h4>Configuración</h4>
+                <p>Configura la impresión de la tirilla, con los datos correspondientes al parquedero.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-7">
+          <div class="card card-stats" >
+            <div class="card-header">
+              <div class="card-icon" style="text-align: center;color:white;">
+                <img style="width: 100%;" src="/assets/img/4.png" alt="" srcset="">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-7">
+          <div class="card card-stats" >
+            <div class="card-header">
+              <div class="card-icon" style="text-align: center;color:white;">
+                <img style="width: 100%;" src="/assets/img/5.png" alt="" srcset="">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="card card-stats" style="margin-top:35%;">
+            <div class="card-header">
+              <div class="card-icon" style="text-align: center;color:white;">
+                <h4>Cierre caja</h4>
+                <p>Genera e imprime el cierre de caja diario, seleccionando el rango de fechas.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-5">
+          <div class="card card-stats" style="margin-top:35%;">
+            <div class="card-header">
+              <div class="card-icon" style="text-align: center;color:white;">
+                <h4>Entradas de vehiculos</h4>
+                <p>Ingresa la placa del vechiulo luego indique el tipo de servicio y algunos datos descriptivos
+                  del vehiculo, allí indicará el valor y la cantidad de tiempo que tiene dicha placa.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-7">
+          <div class="card card-stats" >
+            <div class="card-header">
+              <div class="card-icon" style="text-align: center;color:white;">
+                <img style="width: 100%;" src="/assets/img/6.png" alt="" srcset="">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-7">
+          <div class="card card-stats" >
+            <div class="card-header">
+              <div class="card-icon" style="text-align: center;color:white;">
+                <img style="width: 100%;" src="/assets/img/8.png" alt="" srcset="">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="card card-stats" style="margin-top:35%;">
+            <div class="card-header">
+              <div class="card-icon" style="text-align: center;color:white;">
+                <h4>Salida de vehiculos</h4>
+                <p>Busca la placa en la tabla de entradas, selecciona y traerá todos los datos 
+                  relevantes a la facturación de la salida del vehiculo. 
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-5">
+          <div class="card card-stats" style="margin-top:35%;">
+            <div class="card-header">
+              <div class="card-icon" style="text-align: center;color:white;">
+                <h4>Consulta nuestra APP Wparkapp</h4>
+                <p>Encuentranos en Google play
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-7">
+          <div class="card card-stats" >
+            <a href="https://play.google.com/store/apps/details?id=com.wakusoft.parkapp">
+              <div class="card-header">
+                <div class="card-icon" style="text-align: center;color:white;">
+                  <img style="width: 50%;" src="/assets/img/9.jpeg" alt="" srcset="">
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+  <footer class="footer" style="position: relative;
   width: 100%;
   z-index: 1000;
   background: black;
+  bottom: 0px;
   margin-top: 10%;
-  padding-top: 10%;
+  padding-top: 5%;
   padding-bottom: 10%;">
     <div class="container-fluid">
       <nav class="float-left">
         <ul style="display: block">
           <li>
-            <a href="interconsis">
+            <a href="https://wakusoft.com/">
               Interconsis / Wakusoft
             </a>
           </li>
           <li>
-            <a href="acerca">
-              Nosotros
+            <a href="https://wa.me/13219045297?text=Me%20interesa%20el%20algun%20plan%20de%20parkapp">
+              321 904 52 97
             </a>
           </li>
           <li>
-            <a href="Licencia">
-              Licencia
-            </a>
+            <div>
+              Bogotá D.C. Colombia Calle 38 a 50 a 71 sur
+              <a href="mailto:wakusoft@gmail.com">wakusoft@gmail.com</a>
+            </div>
           </li>
         </ul>
       </nav>
@@ -298,7 +593,7 @@
         <script>
           document.write(new Date().getFullYear())
         </script>, hecho con <i class="material-icons">favorite</i> por
-        <a href="interconsis" target="_blank">Interconsis / wakusoft</a>
+        <a href="https://wakusoft.com/" target="_blank">Interconsis / wakusoft</a>
       </div>
     </div>
   </footer>

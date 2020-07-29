@@ -29,7 +29,7 @@
                     <label class="col-md-2 ">Teléfono</label><div class="col-md-4"><input type="text" id="telefono" name="telefono" placeholder="ej.(3219045297)" class="col-md-10 form-control"></div>
                     <label class="col-md-2 ">Contraseña</label><div class="col-md-4"><input type="password" id="contrasena" name="contrasena" placeholder="***" class="col-md-10 form-control"></div>
                     <label class="col-md-2 ">Email</label><div class="col-md-4"><input type="email" id="email" name="email" placeholder="" class="col-md-10 form-control"></div>
-                    <div class="col-md-12"><input type="submit" class="btn btn-success" value="Guardar"></div>
+                    <div class="col-md-12"><input type="submit" class="btn btn-success" value="Crear administrador"></div>
                 </form>
             </div>
         </div>

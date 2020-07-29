@@ -15,8 +15,21 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/registro', function () {
+    return view('solicitudparqueadero');
+});
+
+Route::get('/registroUsuario/{id}',function($id){
+    $parqueaderos = App\Parqueaderos::where('id','=',$id)->first();
+    $tipoUsuarios = App\TipoUsuarios::all();
+    return view('registrousuario',[
+        'parqueaderos'=>$parqueaderos,
+        'tipoUsuarios'=>$tipoUsuarios
+    ]);
+});
+
 Route::get('/index', function(){
-    $datos = DB::select('SELECT T.idTipoVehiculo, count(*) as contador FROM entradas E, tarifas T where E.idTarifa = T.id and E.salidaFecha is null group by T.idTipoVehiculo');
+    $datos = DB::select('SELECT T.idTipoVehiculo, count(*) as contador FROM entradas E, tarifas T where E.idTarifa = T.id and E.salidaFecha is null and E.idParqueadero  = '.Session::get('id_parqueadero').' group by T.idTipoVehiculo');
     foreach($datos as $obj){
             $obj->idTipoVehiculo = App\TipoVehiculos::where('id','=',$obj->idTipoVehiculo)->get();
     }
@@ -30,8 +43,8 @@ Route::get('/salida', function(){
 });
 
 Route::get('/imprimir/{id}', function($id){
-    $parqueaderos = App\Parqueaderos::where('id','>','0')->first();
-    $pagos = App\Pagos::where('id','=',$id)->get();
+    $parqueaderos = App\Parqueaderos::where('id','=',Session::get('id_parqueadero'))->first();
+    $pagos = App\Pagos::where('id','=',$id)->where('idParqueadero','=',Session::get('id_parqueadero'))->get();
     foreach($pagos as $obj){
         $obj->idEntrada = App\Entradas::where('id','=',$obj->idEntrada)->get();
         $obj->idUsuario = App\Usuarios::where('id','=',$obj->idUsuario)->get();
@@ -47,8 +60,8 @@ Route::get('/imprimir/{id}', function($id){
     ]);
 });
 Route::get('/imprimir2/{id}', function($id){
-    $parqueaderos = App\Parqueaderos::where('id','>','0')->first();
-    $entradas = App\Entradas::where('id','=',$id)->get();
+    $parqueaderos = App\Parqueaderos::where('id','=',Session::get('id_parqueadero'))->first();
+    $entradas = App\Entradas::where('id','=',$id)->where('idParqueadero','=',Session::get('id_parqueadero'))->get();
     return view('imprimir2',[
         "parqueaderos"=>$parqueaderos,
         "entradas"=>$entradas
@@ -56,14 +69,14 @@ Route::get('/imprimir2/{id}', function($id){
 });
 
 Route::get('/entradas', function(){
-    $entradas = DB::select("SELECT * FROM ENTRADAS WHERE salidaFecha is null");
+    $entradas = DB::select("SELECT * FROM entradas WHERE salidaFecha is null and idParqueadero = ".Session::get('id_parqueadero')." ");
     foreach($entradas as $obj){
         $obj->idTarifa = App\Tarifas::where('id','=',$obj->idTarifa)->get();
     }
-    $tarifas = App\Tarifas::all();
+    $tarifas = App\Tarifas::where('idParqueadero','=',Session::get('id_parqueadero'))->get();
     $clientes = App\Clientes::all();
     $tipoPagos = App\TipoPagos::all();
-    $parqueaderos = App\Parqueaderos::where('id','>','0')->first();
+    $parqueaderos = App\Parqueaderos::where('id','=',Session::get('id_parqueadero'))->first();
     return view('entradas',[
         "entradas"=>$entradas,
         "parqueaderos"=>$parqueaderos,
@@ -74,9 +87,9 @@ Route::get('/entradas', function(){
 });
 
 Route::get('/usuarios', function(){
-    $usuarios = App\Usuarios::all();
+    $usuarios = App\Usuarios::where('idParqueadero','=',Session::get('id_parqueadero'))->get();
     $tipoUsuarios = App\TipoUsuarios::all();
-    $parqueaderos = App\Parqueaderos::where('id','>','0')->first();
+    $parqueaderos = App\Parqueaderos::where('id','=',Session::get('id_parqueadero'))->first();
     foreach($usuarios as $obj){
         $obj->idTipoUsuario = App\TipoUsuarios::where('id','=',$obj->idTipoUsuario)->get();
     }
@@ -88,7 +101,7 @@ Route::get('/usuarios', function(){
 });
 
 Route::get('/servicios', function(){
-    $tarifas = App\Tarifas::all();
+    $tarifas = App\Tarifas::where('idParqueadero','=',Session::get('id_parqueadero'))->get();
     foreach($tarifas as $obj){
         $obj->idTipoVehiculo = App\TipoVehiculos::where('id','=',$obj->idTipoVehiculo)->get();
     }
@@ -102,7 +115,7 @@ Route::get('/servicios', function(){
 });
 
 Route::get('/servicios/{id}', function($id){
-    $tarifas = App\Tarifas::where('id','=',$id)->get();
+    $tarifas = App\Tarifas::where('id','=',$id)->where('idParqueadero','=',Session::get('id_parqueadero'))->get();
     foreach($tarifas as $obj){
         $obj->idTipoVehiculo = App\TipoVehiculos::where('id','=',$obj->idTipoVehiculo)->get();
     }
@@ -119,11 +132,12 @@ Route::get('/clientes', function(){
 });
 
 Route::get('/pagos', function(){
-    $pagos = App\Pagos::where('id','>',0)->orderBy('id','desc')->take(100)->get();
+    $fechaInicio = date("Y-m-d H:i:s");
+    $pagos = DB::select("SELECT * FROM pagos WHERE created_at > '".$fechaInicio."' and idParqueadero = ".Session::get('id_parqueadero')." ");
     foreach($pagos as $obj){
-        $obj->idEntrada = App\Entradas::where('id','=',$obj->idEntrada)->get();
+        $obj->idEntrada = App\Entradas::where('id','=',$obj->idEntrada)->first();
     }
-    $parqueaderos = App\Parqueaderos::where('id','>','0')->first();
+    $parqueaderos = App\Parqueaderos::where('id','=',Session::get('id_parqueadero'))->first();
     return view('pagos',[
         "pagos"=>$pagos,
         "parqueaderos"=>$parqueaderos
@@ -131,7 +145,7 @@ Route::get('/pagos', function(){
 });
 
 Route::get('/configuracion', function(){
-    $parqueaderos = App\Parqueaderos::where('id','>','0')->first();
+    $parqueaderos = App\Parqueaderos::where('id','=',Session::get('id_parqueadero'))->first();
     $tipoPagos = App\TipoPagos::all();
     $tipoVehiculos = App\TipoVehiculos::all();
     $tipoUsuarios = App\TipoUsuarios::all();
@@ -164,5 +178,6 @@ Route::post('/entradas/calcularTarifa', 'Controller@calcularTarifa');
  * USUARIOS CONTROLLER
  */
 Route::post('/clientes/create', 'UsuariosController@createClientes');
+Route::post('/usuarios/create2', 'UsuariosController@createUsuarios2');
 Route::post('/usuarios/create', 'UsuariosController@createUsuarios');
 Route::post('/usuarios/loguin', 'UsuariosController@loguin');
